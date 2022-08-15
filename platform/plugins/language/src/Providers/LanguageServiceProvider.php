@@ -85,16 +85,16 @@ class LanguageServiceProvider extends ServiceProvider
         }
 
         Event::listen(RouteMatched::class, function () {
-            dashboard_menu()
-                ->registerItem([
-                    'id'          => 'cms-plugins-language',
-                    'priority'    => 2,
-                    'parent_id'   => 'cms-core-settings',
-                    'name'        => 'plugins/language::language.name',
-                    'icon'        => null,
-                    'url'         => route('languages.index'),
-                    'permissions' => ['languages.index'],
-                ]);
+//            dashboard_menu()
+//                ->registerItem([
+//                    'id'          => 'cms-plugins-language',
+//                    'priority'    => 2,
+//                    'parent_id'   => 'cms-core-settings',
+//                    'name'        => 'plugins/language::language.name',
+//                    'icon'        => null,
+//                    'url'         => route('languages.index'),
+//                    'permissions' => ['languages.index'],
+//                ]);
 
             Assets::addScriptsDirectly('vendor/core/plugins/language/js/language-global.js')
                 ->addStylesDirectly(['vendor/core/plugins/language/css/language.css']);

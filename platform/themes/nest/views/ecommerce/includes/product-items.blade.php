@@ -30,7 +30,7 @@
 
 <div class="row product-grid">
     @forelse ($products as $product)
-        <div class="col-xxl-2 col-xl-2 col-lg-4 col-md-4 col-12 col-sm-6">
+        <div class="col-xxl-2 col-xl-2 col-lg-4 col-md-4 col-6 col-sm-6">
             @include(Theme::getThemeNamespace() . '::views.ecommerce.includes.product-item', compact('product'))
         </div>
     @empty

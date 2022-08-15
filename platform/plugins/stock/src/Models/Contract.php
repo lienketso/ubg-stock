@@ -56,6 +56,7 @@ class Contract extends BaseModel
         'contract_paid_status',
         'address',
         'area',
+        'phone_ref',
         'commission'
     ];
 

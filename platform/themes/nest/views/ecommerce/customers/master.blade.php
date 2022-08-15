@@ -37,12 +37,16 @@
             'label' => 'Quản lý xu',
             'icon'  => 'fi-rs-money'
         ],
-        [
+    ];
+
+    if (is_plugin_active('stock')) {
+        $menus[] = [
             'key'   => 'stock-manager.dashboard',
             'label' => 'Quản lý cổ phần',
             'icon'  => 'fi-rs-money'
-        ],
-    ];
+        ];
+    }
+
 @endphp
 <div class="page-content pt-30 pb-30">
     <div class="container">

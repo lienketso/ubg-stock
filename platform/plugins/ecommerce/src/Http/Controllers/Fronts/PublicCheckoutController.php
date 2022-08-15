@@ -1319,19 +1319,22 @@ class PublicCheckoutController
 
             $order->amount = $request->get('amount');
             $order->shipping_amount = $request->get('order_shipping_value');
+            $order->shipping_option = 'vnpay';
             $order->save();
 
             $vnPayOrderId = $order->id.'-'.time().'-VNP-'.Str::random(6);
 
+            $vnpayAmount = floatval($request->get('amount') + $request->get('order_shipping_value'));
+
             $vnpayGateway->execute($request, [
-                'amount' => $request->get('amount'),
+                'amount' => $vnpayAmount,
                 'order_id' => $order->id,
                 'customer_id' => auth('customer')->id(),
                 'charge_id' => $vnPayOrderId,
             ]);
 
             $vnpUrl = $vnpayService->requestPayment([
-                'amount' => $request->get('amount'),
+                'amount' => $vnpayAmount,
                 'order_id' => $vnPayOrderId,
                 'token' => $request->get('token'),
                 'order_shipping_value' => $request->get('order_shipping_value'),

@@ -10,7 +10,4 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-    public function getAdmin(){
-        return view('core/acl::auth.login');
-    }
 }

@@ -138,19 +138,11 @@ class HandleAffiliateService
             return false;
         }
 
-        if ($firstCollaborator->area == 'Thành phố Hà Nội') {
-            array_push($tree, [
-                'id' => $affiliateUserId,
-                'rate' => 0.08,
-                'rate_label' => '8%'
-            ]);
-        } else {
-            array_push($tree, [
-                'id' => $affiliateUserId,
-                'rate' => 0.05,
-                'rate_label' => '5%'
-            ]);
-        }
+        array_push($tree, [
+            'id' => $affiliateUserId,
+            'rate' => 0.06,
+            'rate_label' => '6%'
+        ]);
 
         $secondCollaborator = app(CustomerInterface::class)->findById($firstCollaborator->presenter_id);
 

@@ -83,16 +83,16 @@ class WidgetServiceProvider extends ServiceProvider
         });
 
         Event::listen(RouteMatched::class, function () {
-            dashboard_menu()
-                ->registerItem([
-                    'id'          => 'cms-core-widget',
-                    'priority'    => 3,
-                    'parent_id'   => 'cms-core-appearance',
-                    'name'        => 'packages/widget::widget.name',
-                    'icon'        => null,
-                    'url'         => route('widgets.index'),
-                    'permissions' => ['widgets.index'],
-                ]);
+//            dashboard_menu()
+//                ->registerItem([
+//                    'id'          => 'cms-core-widget',
+//                    'priority'    => 3,
+//                    'parent_id'   => 'cms-core-appearance',
+//                    'name'        => 'packages/widget::widget.name',
+//                    'icon'        => null,
+//                    'url'         => route('widgets.index'),
+//                    'permissions' => ['widgets.index'],
+//                ]);
 
             if (function_exists('admin_bar')) {
                 admin_bar()->registerLink(trans('packages/widget::widget.name'), route('widgets.index'), 'appearance');

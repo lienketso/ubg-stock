@@ -43,15 +43,15 @@ class NewsletterServiceProvider extends ServiceProvider
         $this->app->register(EventServiceProvider::class);
 
         Event::listen(RouteMatched::class, function () {
-            dashboard_menu()->registerItem([
-                'id'          => 'cms-plugins-newsletter',
-                'priority'    => 6,
-                'parent_id'   => null,
-                'name'        => 'plugins/newsletter::newsletter.name',
-                'icon'        => 'far fa-newspaper',
-                'url'         => route('newsletter.index'),
-                'permissions' => ['newsletter.index'],
-            ]);
+//            dashboard_menu()->registerItem([
+//                'id'          => 'cms-plugins-newsletter',
+//                'priority'    => 6,
+//                'parent_id'   => null,
+//                'name'        => 'plugins/newsletter::newsletter.name',
+//                'icon'        => 'far fa-newspaper',
+//                'url'         => route('newsletter.index'),
+//                'permissions' => ['newsletter.index'],
+//            ]);
 
             EmailHandler::addTemplateSettings(NEWSLETTER_MODULE_SCREEN_NAME, config('plugins.newsletter.email', []));
         });

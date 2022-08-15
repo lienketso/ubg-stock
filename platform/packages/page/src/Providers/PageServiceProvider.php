@@ -47,10 +47,10 @@ class PageServiceProvider extends ServiceProvider
 //                'url'         => route('pages.index'),
 //                'permissions' => ['pages.index'],
 //            ]);
-//
-//            if (function_exists('admin_bar')) {
-//                admin_bar()->registerLink(trans('packages/page::pages.menu_name'), route('pages.create'), 'add-new');
-//            }
+
+            if (function_exists('admin_bar')) {
+                admin_bar()->registerLink(trans('packages/page::pages.menu_name'), route('pages.create'), 'add-new');
+            }
         });
 
         if (function_exists('shortcode')) {

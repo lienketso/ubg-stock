@@ -2183,3 +2183,19 @@ select.form-control {
         }
     }
 }
+
+.location-popup-list {
+    .location-popup-item {
+        padding: 10px;
+        border-radius: 10px;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        justify-content: flex-start;
+        align-items: center;
+        img {
+            max-width: 100px;
+        }
+    }
+}

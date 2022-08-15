@@ -816,20 +816,20 @@ class EcommerceServiceProvider extends ServiceProvider
 //                    'url'         => route('withdrawal.index'),
 //                    'permissions' => ['withdrawal.index'],
 //                ]);
-
-            if (EcommerceHelper::isTaxEnabled()) {
-                dashboard_menu()->registerItem([
-                    'id'          => 'cms-plugins-ecommerce-tax',
-                    'priority'    => 14,
-                    'parent_id'   => 'cms-plugins-ecommerce',
-                    'name'        => 'plugins/ecommerce::tax.name',
-                    'icon'        => 'fas fa-money-check-alt',
-                    'url'         => route('tax.index'),
-                    'permissions' => ['tax.index'],
-                ]);
-            }
-
-            if (!dashboard_menu()->hasItem('cms-core-tools')) {
+//
+//            if (EcommerceHelper::isTaxEnabled()) {
+//                dashboard_menu()->registerItem([
+//                    'id'          => 'cms-plugins-ecommerce-tax',
+//                    'priority'    => 14,
+//                    'parent_id'   => 'cms-plugins-ecommerce',
+//                    'name'        => 'plugins/ecommerce::tax.name',
+//                    'icon'        => 'fas fa-money-check-alt',
+//                    'url'         => route('tax.index'),
+//                    'permissions' => ['tax.index'],
+//                ]);
+//            }
+//
+//            if (!dashboard_menu()->hasItem('cms-core-tools')) {
 //                dashboard_menu()->registerItem([
 //                    'id'          => 'cms-core-tools',
 //                    'priority'    => 96,
@@ -839,7 +839,7 @@ class EcommerceServiceProvider extends ServiceProvider
 //                    'url'         => '',
 //                    'permissions' => [],
 //                ]);
-            }
+//            }
 
 //            dashboard_menu()
 //                ->registerItem([
@@ -860,15 +860,15 @@ class EcommerceServiceProvider extends ServiceProvider
 //                    'url'         => route('ecommerce.export.products.index'),
 //                    'permissions' => ['ecommerce.export.products.index'],
 //                ]);
-
-            if (defined('SOCIAL_LOGIN_MODULE_SCREEN_NAME')) {
-                SocialService::registerModule([
-                    'guard'        => 'customer',
-                    'model'        => Customer::class,
-                    'login_url'    => route('customer.login'),
-                    'redirect_url' => route('public.index'),
-                ]);
-            }
+//
+//            if (defined('SOCIAL_LOGIN_MODULE_SCREEN_NAME')) {
+//                SocialService::registerModule([
+//                    'guard'        => 'customer',
+//                    'model'        => Customer::class,
+//                    'login_url'    => route('customer.login'),
+//                    'redirect_url' => route('public.index'),
+//                ]);
+//            }
         });
 
         $this->app->booted(function () {

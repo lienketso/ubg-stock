@@ -289,8 +289,7 @@ class StockController
     public function requestSign(SignContractRequest $request, BaseHttpResponse $response)
     {
 
-
-        if ($request->has(['name', 'phone', 'email'])) {
+        if ($request->has(['name', 'phone', 'phone_ref', 'email'])) {
             try {
                 //sinh mã hợp đồng mới
                 $today_contract = $request->today_contract + 1;
@@ -324,6 +323,7 @@ class StockController
                     'status' => ContractStatusEnum::REQUEST_TO_SIGN,
                     'address' => $request->address,
                     'area' => $request->area,
+                    'phone_ref' => $request->phone_ref,
                     'contract_hard_code' => $contract_hard_code
                 ]);
 

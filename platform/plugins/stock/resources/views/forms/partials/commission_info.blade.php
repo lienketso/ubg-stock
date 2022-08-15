@@ -3,8 +3,19 @@
     @php
         $data = json_decode($commission);
     @endphp
+    <div class="row">
+        <div class="col-lg-6">
+            <h3>Hoa hồng Vnd</h3>
+            @foreach($data->vnd as $key => $d)
+                <p><b>{{\Botble\Ecommerce\Enums\CollaboratorLevelEnums::compareValue($key)}}</b>: {{$d}}%</p>
+            @endforeach
+        </div>
+        <div class="col-lg-6">
+            <h3>Hoa hồng Ubgxu</h3>
+            @foreach($data->ubgxu as $key => $c)
+                <p><b>{{\Botble\Ecommerce\Enums\CollaboratorLevelEnums::compareValue($key)}}</b>: {{$c}}%</p>
+            @endforeach
+        </div>
+    </div>
 
-    @foreach($data as $key => $d)
-        <p><b>{{\Botble\Ecommerce\Enums\CollaboratorLevelEnums::compareValue($key)}}</b>: {{$d}}%</p>
-    @endforeach
 </div>

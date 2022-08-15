@@ -23,7 +23,7 @@
                     <img src="{{Theme::asset()->url('imgs/theme/shipping-color.png')}}" alt="" class="img-fluid">
                     <div class="shipping-sub-menu-description">
                         <p>Chuyển phát tiêu chuẩn</p>
-                        <span>Dự kiến giao 2 - 4 ngày</span>
+                        <span>Dự kiến giao 1 - 2 ngày</span>
                     </div>
                 </div>
             </div>

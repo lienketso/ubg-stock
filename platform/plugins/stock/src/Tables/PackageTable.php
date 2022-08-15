@@ -83,14 +83,15 @@ class PackageTable extends TableAbstract
             ->editColumn('status', function ($item) {
                 return $item->status->toHtml();
             })
-            ->editColumn('commission', function ($item) {
-                $text = '';
-                $commission = json_decode($item->commission);
-                foreach ($commission as $k => $c) {
-                    $text.= '<p>'.CollaboratorLevelEnums::compareValue($k).': '.$c.'%</p>';
-                }
-                return $text;
-            })
+//            ->editColumn('commission', function ($item) {
+//                $text = '';
+//                $commission = json_decode($item->commission);
+//
+//                foreach ($commission->vnd as $k => $c) {
+//                    $text.= '<p>'.CollaboratorLevelEnums::compareValue($k).': '.$c.'%</p>';
+//                }
+//                return $text;
+//            })
             ->addColumn('operations', function ($item) {
                 return $this->getOperations('package.edit', 'package.destroy', $item);
             });
@@ -159,11 +160,11 @@ class PackageTable extends TableAbstract
                 'title' => 'Kỳ hạn',
                 'width' => '100px',
             ],
-            'commission' => [
-                'title' => 'Tỷ lệ hoa hồng',
-                'width' => '100px',
-                'class' => 'text-start',
-            ],
+//            'commission' => [
+//                'title' => 'Tỷ lệ hoa hồng',
+//                'width' => '100px',
+//                'class' => 'text-start',
+//            ],
             'created_at' => [
                 'title' => trans('core/base::tables.created_at'),
                 'width' => '100px',

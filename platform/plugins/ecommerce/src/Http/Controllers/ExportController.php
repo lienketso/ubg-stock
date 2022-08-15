@@ -63,6 +63,6 @@ class ExportController extends BaseController
         @ini_set('max_execution_time', -1);
         @ini_set('memory_limit', -1);
 
-        return (new CsvProductExport)->download('export_products.csv');
+        return (new CsvProductExport)->download('export_products.xlsx');
     }
 }

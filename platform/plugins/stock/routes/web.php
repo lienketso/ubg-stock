@@ -140,7 +140,6 @@ Route::group(['namespace' => 'Botble\Stock\Http\Controllers\Fronts', 'middleware
                     'as' => 'dashboard',
                     'uses' => 'StockDashboardController@getDashboard',
                 ]);
-
                 Route::get('contracts', [
                     'as' => 'contracts',
                     'uses' => 'ContractManagerController@getContract',
@@ -166,31 +165,37 @@ Route::group(['namespace' => 'Botble\Stock\Http\Controllers\Fronts', 'middleware
                     Route::get('create/{contract_id}', [
                         'as' => 'create',
                         'uses' => 'StockWithdrawalController@create',
+                        'middleware' => 'not-trial-collaborator'
                     ]);
 
                     Route::post('create/{contract_id}', [
                         'as' => 'store',
                         'uses' => 'StockWithdrawalController@store',
+                        'middleware' => 'not-trial-collaborator'
                     ]);
 
                     Route::get('edit/{id}', [
                         'as' => 'edit',
                         'uses' => 'StockWithdrawalController@edit',
+                        'middleware' => 'not-trial-collaborator'
                     ]);
 
                     Route::post('update/{id}', [
                         'as' => 'update',
                         'uses' => 'StockWithdrawalController@update',
+                        'middleware' => 'not-trial-collaborator'
                     ]);
 
                     Route::get('list-avaiable-contract', [
                         'as' => 'list-contract',
                         'uses' => 'StockWithdrawalController@listContract',
+                        'middleware' => 'not-trial-collaborator'
                     ]);
 
                     Route::get('show/{id}', [
                         'as'   => 'show',
                         'uses' => 'StockWithdrawalController@show',
+                        'middleware' => 'not-trial-collaborator'
                     ]);
                 });
 

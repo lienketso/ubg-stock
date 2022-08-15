@@ -159,6 +159,11 @@
                         <label for="">Email</label>
                         <input type="text" name="email" value="{{$user->email}}" placeholder="Email" class="form-control" required>
                     </div>
+
+                    <div class="form-group mb-3">
+                        <label for="">SĐT người giới thiệu</label>
+                        <input type="text" name="phone_ref" value="" placeholder="SĐT người giới thiệu" class="form-control" required>
+                    </div>
                   
                     <div class="form-group mb-3">
                         <label for="">Khu vực</label>

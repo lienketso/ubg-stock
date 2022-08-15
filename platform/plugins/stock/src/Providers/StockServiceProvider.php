@@ -3,6 +3,7 @@
 namespace Botble\Stock\Providers;
 
 use Botble\LanguageAdvanced\Supports\LanguageAdvancedManager;
+use Botble\Stock\Http\Middleware\RedirectIfNotEnoughLevel;
 use Botble\Stock\Models\Contract;
 use Botble\Stock\Models\CPCategory;
 use Botble\Stock\Models\CPHistory;
@@ -27,6 +28,7 @@ use Botble\Stock\Repositories\Interfaces\CPHistoryInterface;
 use Botble\Stock\Repositories\Interfaces\PackageInterface;
 use Botble\Stock\Repositories\Interfaces\WithdrawInterface;
 use Botble\Stock\Repositories\Interfaces\ChartInterface;
+use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Routing\Events\RouteMatched;
@@ -63,6 +65,13 @@ class StockServiceProvider extends ServiceProvider
         $this->app->bind(ChartInterface::class,function(){
             return new ChartCacheDecoration(new ChartRepository(new Chart));
         });
+
+        /**
+         * @var Router $router
+         */
+        $router = $this->app['router'];
+
+        $router->aliasMiddleware('not-trial-collaborator', RedirectIfNotEnoughLevel::class);
     }
 
     function boot(){

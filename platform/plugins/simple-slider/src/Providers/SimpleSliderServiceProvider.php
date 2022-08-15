@@ -44,15 +44,15 @@ class SimpleSliderServiceProvider extends ServiceProvider
             ->publishAssets();
 
         Event::listen(RouteMatched::class, function () {
-            dashboard_menu()->registerItem([
-                'id'          => 'cms-plugins-simple-slider',
-                'priority'    => 100,
-                'parent_id'   => null,
-                'name'        => 'plugins/simple-slider::simple-slider.menu',
-                'icon'        => 'far fa-image',
-                'url'         => route('simple-slider.index'),
-                'permissions' => ['simple-slider.index'],
-            ]);
+//            dashboard_menu()->registerItem([
+//                'id'          => 'cms-plugins-simple-slider',
+//                'priority'    => 100,
+//                'parent_id'   => null,
+//                'name'        => 'plugins/simple-slider::simple-slider.menu',
+//                'icon'        => 'far fa-image',
+//                'url'         => route('simple-slider.index'),
+//                'permissions' => ['simple-slider.index'],
+//            ]);
         });
 
         $this->app->booted(function () {

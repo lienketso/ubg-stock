@@ -21,7 +21,7 @@
                         <button type="button" href="{{ route('ecommerce.export.products.index') }}"
                             class="btn btn-info btn-export-data"
                             data-loading-text="{{ trans('plugins/ecommerce::export.exporting') }}"
-                            data-filename="export_products.csv">
+                            data-filename="export_products.xlsx">
                             {{ trans('plugins/ecommerce::export.start_export') }}
                         </button>
                     </div>

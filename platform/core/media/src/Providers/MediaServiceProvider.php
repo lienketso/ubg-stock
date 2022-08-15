@@ -162,6 +162,7 @@ class MediaServiceProvider extends ServiceProvider
 //                'permissions' => ['media.index'],
 //            ]);
         });
+
         $this->commands([
             GenerateThumbnailCommand::class,
             DeleteThumbnailCommand::class,

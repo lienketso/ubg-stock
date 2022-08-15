@@ -959,14 +959,6 @@
         $('.ps-popup').hide();
     })
 
-    $(document).on('click', '.location-popup-accept', function (e) {
-        e.preventDefault();
-        var location = $('#location-shopping').val();
-        if (location !== '') {
-            window.location.href = location;
-        }
-    })
-
     /* WOW active */
     if (typeof WOW != 'undefined') {
         new WOW().init();

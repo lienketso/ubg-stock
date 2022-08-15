@@ -41,6 +41,13 @@ class ContractForm extends FormAbstract
                     'disabled'      => true
                 ],
             ])    
+            ->add('phone_ref', 'text', [
+                'label'      => 'Số điện thoại giới thiệu',
+                'label_attr' => ['class' => 'control-label required'],
+                'attr'       => [
+                    'data-counter' => 11,
+                ],
+            ])    
             
             ->add('file_contract', 'mediaFile', [
                 'label'      => 'File hợp đồng',
