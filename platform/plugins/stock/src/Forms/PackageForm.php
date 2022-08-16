@@ -5,6 +5,7 @@ namespace Botble\Stock\Forms;
 use Botble\Base\Forms\FormAbstract;
 use Botble\Stock\Enums\PackageStatusEnum;
 use Botble\Stock\Enums\StockPaymentTypeEnum;
+use Botble\Stock\Enums\StockTypeEnum;
 use Botble\Stock\Http\Requests\PackageRequest;
 use Botble\Stock\Forms\Fields\AssignCPCategorySelector;
 use Botble\Stock\Models\Package;
@@ -37,7 +38,7 @@ class PackageForm extends FormAbstract
                     'data-counter' => 120,
                 ],
             ])
-            
+
             ->add('content', 'textarea', [
                 'label'      => trans('core/base::forms.description'),
                 'label_attr' => ['class' => 'control-label'],
@@ -68,34 +69,34 @@ class PackageForm extends FormAbstract
                 'attr'       => [
                     'placeholder'  => 'Giá trên 1 cổ phần',
                 ],
-            ])   
-            ->add('qty_of_stock', 'number', [
+            ])
+            ->add('qty_of_stock', 'text', [
                 'label'      => 'Số lượng cổ phần',
                 'label_attr' => ['class' => 'control-label required'],
                 'attr'       => [
                     'placeholder'  => 'Số lượng cổ phần',
                 ],
-            ])          
+            ])
             ->add('percent_paid_by_ubgxu', 'number', [
                 'label'      => 'Tổng lợi tức theo xu (%)',
                 'label_attr' => ['class' => 'control-label required'],
                 'attr'       => [
                     'placeholder'  => 'Tổng lợi tức theo xu (%)',
                 ],
-            ]) 
+            ])
             ->add('percent_paid_by_money', 'number', [
                 'label'      => 'Tổng lợi tức theo VNĐ (%)',
                 'label_attr' => ['class' => 'control-label required'],
                 'attr'       => [
                     'placeholder'  => 'Tổng lợi tức theo VNĐ (%)',
                 ],
-            ]) 
+            ])
             ->add('end_date', 'text', [
                 'label'      => 'Kỳ hạn',
                 'label_attr' => ['class' => 'control-label'],
                 'attr'       => [
                     'placeholder'  => 'Kỳ hạn',
-                    'class'        => 'form-control',  
+                    'class'        => 'form-control',
                 ]
             ])
             ->add('cp_package', 'html', [
@@ -118,6 +119,14 @@ class PackageForm extends FormAbstract
                 'label'      => 'Loại hợp đồng',
                 'wrapper'    => false,
                 'label_show' => false,
+            ])
+            ->add('type', 'select', [
+                'label'      => 'Hình thức gói',
+                'label_attr' => ['class' => 'control-label'],
+                'attr'       => [
+                    'class' => 'form-control select-full',
+                ],
+                'choices'    => StockTypeEnum::labels(),
             ])
             ->add('thumbnail', 'mediaImage', [
                 'label'      => trans('core/base::forms.image'),

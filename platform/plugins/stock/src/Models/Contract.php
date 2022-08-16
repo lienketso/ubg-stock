@@ -7,6 +7,7 @@ use Botble\Base\Traits\EnumCastable;
 use Botble\Ecommerce\Models\Customer;
 use Botble\Stock\Enums\ContractPaymentStatusEnum;
 use Botble\Stock\Enums\ContractStatusEnum;
+use Botble\Stock\Enums\StockTypeEnum;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Contract extends BaseModel
@@ -16,14 +17,6 @@ class Contract extends BaseModel
      * @var string
      */
     protected $table = 'cp_contract';
-
-    /**
-     * @var string[]
-     */
-    protected $dates = [
-        'created_at',
-        'updated_at',
-    ];
 
     /**
      * @var string[]
@@ -57,12 +50,17 @@ class Contract extends BaseModel
         'address',
         'area',
         'phone_ref',
-        'commission'
+        'commission',
+        'type',
+        'customer_info',
+        'created_at',
+        'updated_at'
     ];
 
     protected $casts = [
         'status'       => ContractStatusEnum::class,
-        'contract_paid_status' => ContractPaymentStatusEnum::class
+        'contract_paid_status' => ContractPaymentStatusEnum::class,
+        'type' => StockTypeEnum::class
     ];
 
     /**

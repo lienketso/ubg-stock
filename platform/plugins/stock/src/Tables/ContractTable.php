@@ -5,6 +5,7 @@ namespace Botble\Stock\Tables;
 use BaseHelper;
 use Botble\Ecommerce\Supports\EcommerceHelper;
 use Botble\Stock\Enums\ContractStatusEnum;
+use Botble\Stock\Enums\StockTypeEnum;
 use Botble\Stock\Repositories\Interfaces\ContractInterface;
 use Botble\Ecommerce\Repositories\Interfaces\CustomerInterface;
 use Botble\Stock\Repositories\Interfaces\PackageInterface;
@@ -112,6 +113,9 @@ class ContractTable extends TableAbstract
             ->editColumn('status', function ($item) {
                 return $item->status->toHtml();
             })
+            ->editColumn('type', function ($item) {
+                return $item->type->toHtml();
+            })
             ->addColumn('operations', function ($item) {
                 return $this->getOperations('contract.edit', 'contract.destroy', $item,
                     Auth::user()->hasPermission('contract.edit') ? '<a class="btn btn-icon btn-sm btn-warning" href="'.route('contract.export-stock', $item->id).'"><i class="fas fa-print"></i></a>' : '');
@@ -143,7 +147,8 @@ class ContractTable extends TableAbstract
                 'area',
                 'expires_date',
                 'created_at',
-                'status'
+                'status',
+                'type'
             ]);
         return $this->applyScopes($query);
     }
@@ -194,6 +199,10 @@ class ContractTable extends TableAbstract
             ],
             'status' => [
                 'title' => 'Trạng thái',
+                'class' => 'text-start',
+            ],
+            'type' => [
+                'title' => 'Loại HĐ',
                 'class' => 'text-start',
             ],
             // 'active_date' => [
@@ -267,6 +276,12 @@ class ContractTable extends TableAbstract
             'created_at' => [
                 'title' => 'Ngày giao dịch',
                 'type' => 'date',
+            ],
+            'type' => [
+                'title' => 'Loại HĐ',
+                'type' => 'customSelect',
+                'choices' => StockTypeEnum::labels(),
+                'validate' => 'required|in:' . implode(',', StockTypeEnum::values()),
             ],
         ];
     }

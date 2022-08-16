@@ -11,14 +11,23 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class CPHistory extends BaseModel
 {
     protected $table = 'cp_history';
-    protected $dates = [
-        'created_at',
-        'updated_at',
-    ];
+
     /**
      * @var array
      */
-    protected $fillable = ['customer_id','package_id','amount','amount_xu','history_date','type','contract_code','contract_id','contract_code'];
+    protected $fillable = [
+        'customer_id',
+        'package_id',
+        'amount',
+        'amount_xu',
+        'history_date',
+        'type',
+        'contract_code',
+        'contract_id',
+        'contract_code',
+        'created_at',
+        'updated_at'
+    ];
 
     public function contract(): BelongsTo{
         return $this->belongsTo(Contract::class,'contract_id');

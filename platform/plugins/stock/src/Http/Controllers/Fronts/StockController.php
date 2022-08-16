@@ -9,6 +9,7 @@ use Botble\Ecommerce\Repositories\Interfaces\ProvinceInterface;
 use Botble\Slug\Repositories\Interfaces\SlugInterface;
 use Botble\Stock\Enums\ContractPaymentStatusEnum;
 use Botble\Stock\Enums\ContractStatusEnum;
+use Botble\Stock\Enums\StockTypeEnum;
 use Botble\Stock\Events\SentContractEvent;
 use Botble\Stock\Http\Requests\SignContractRequest;
 use Botble\Stock\Models\Chart;
@@ -113,7 +114,7 @@ class StockController
 
         $condition = [
             'cp_category.id' => $slugInfor->reference_id,
-            'cp_category.status' => 'published'
+            'cp_category.status' => 'published',
         ];
 
         $category = $this->category->getFirstBy($condition, ['*'], ['slugable']);
@@ -124,7 +125,10 @@ class StockController
 
         $packages = $this->packageRepository->getModel()
             ->where('cp_category_id', $category->id)
-            ->where('status', 'published')->orderBy('end_date', 'desc')->get();
+            ->where('status', 'published')
+            ->where('type', StockTypeEnum::OFFICIAL)
+            ->orderBy('end_date', 'desc')
+            ->get();
 
         return view('plugins/stock::themes.cp-package', compact('category', 'packages'));
     }
@@ -170,12 +174,6 @@ class StockController
                 ->setMessage('Bạn đang có một HĐ đầu tư tương tự đang đợi hoàn thiện');
         }
 
-        $slug = $this->slugRepository->getFirstBy([
-            'reference_id' => $package->id,
-            'reference_type' => Package::class,
-            'prefix' => SlugHelper::getPrefix(Package::class)
-        ]);
-        $slug_name = $slug->key;
         //send email to customer
 
         //create contract
@@ -185,7 +183,6 @@ class StockController
 
         $totalYear = ceil($package->end_date / 365);
 
-        $totalPercent = $package->percentage * $totalYear; // tổng lãi suất cả kỳ
         $totalPercentMoney = $package->percent_paid_by_money * $totalYear;
         $totalPercentXu = $package->percent_paid_by_ubgxu * $totalYear;
 
@@ -196,13 +193,12 @@ class StockController
 
         $totalProfit = $totalDailyProfit * intval($package->end_date);
 
-
         $data = [
             'customer_id' => auth('customer')->id(),
             'package_id' => $package->id,
             'name' => $package->name,
             'expires_date' => $trialExpires,
-            'first_buy_price' => $package->price_per_stock * $package->qty_of_stock,
+            'first_buy_price' => $package->price_per_stock * round($package->qty_of_stock),
             'first_buy_percentage' => $package->percentage,
             'percent_paid_by_money'=>$package->percent_paid_by_money,
             'percent_paid_by_ubgxu'=>$package->percent_paid_by_ubgxu,
@@ -213,7 +209,8 @@ class StockController
             'total_profit_amount' => $totalProfit,
             'presenter_id' => $presenter_id,
             'payment_type' => $package->payment_type,
-            'commission' => $package->commission
+            'commission' => $package->commission,
+            'type' => $package->type
         ];
 
         try {

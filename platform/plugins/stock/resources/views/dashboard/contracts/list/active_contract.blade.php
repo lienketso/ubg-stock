@@ -13,7 +13,7 @@
                         <p class="package-name">Tên gói: <b>{{$contract->name}}</b></p>
                         <p class="package-percentage">Lợi tức: <b>{{$contract->first_buy_percentage}}%</b></p>
                         <p class="package-first-buy-price">Chi phí đầu tư: <b>{{format_price($contract->first_buy_price)}}</b> </p>
-                        <p class="package-name">Kỳ hạn: {{getMonthByDay($contract->package->end_date)}} tháng</p>
+                        <p class="package-name">Kỳ hạn: {{round($contract->package->end_date/30)}} tháng</p>
                     </div>
                     <div class="contract-info">
                         <div class="contract-info-title">

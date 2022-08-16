@@ -1,8 +1,8 @@
 <li class="dropdown dropdown-extended dropdown-inbox">
-    <a href="javascript:;" class="dropdown-toggle dropdown-header-name" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <i class="fas fa-shopping-cart"></i>
-        <span class="badge badge-default"> {{ $orders->total() }} </span>
-    </a>
+{{--    <a href="javascript:;" class="dropdown-toggle dropdown-header-name" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
+{{--        <i class="fas fa-shopping-cart"></i>--}}
+{{--        <span class="badge badge-default"> {{ $orders->total() }} </span>--}}
+{{--    </a>--}}
     <ul class="dropdown-menu dropdown-menu-right">
         <li class="external">
             <h3>{!! trans('plugins/ecommerce::order.new_order_notice', ['count' => $orders->total()]) !!}</h3>

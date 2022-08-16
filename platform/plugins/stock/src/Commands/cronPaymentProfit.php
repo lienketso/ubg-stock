@@ -2,11 +2,8 @@
 
 namespace Botble\Stock\Commands;
 
-use Botble\Ecommerce\Models\Customer;
-use Botble\Ecommerce\Models\UbgxuPayLog;
 use Botble\Ecommerce\Repositories\Interfaces\CustomerInterface;
 use Botble\Ecommerce\Repositories\Interfaces\UbgxuTransactionInterface;
-use Botble\Stock\Models\Contract;
 use Botble\Stock\Models\CPHistory;
 use Botble\Stock\Repositories\Interfaces\ContractInterface;
 use Botble\Stock\Repositories\Interfaces\CPHistoryInterface;

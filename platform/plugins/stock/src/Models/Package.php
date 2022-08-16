@@ -8,6 +8,7 @@ use Botble\Stock\Enums\PackageStatusEnum;
 use Botble\Base\Models\BaseModel;
 use Botble\Base\Traits\EnumCastable;
 use Botble\Stock\Enums\StockPaymentTypeEnum;
+use Botble\Stock\Enums\StockTypeEnum;
 
 class Package extends BaseModel
 {
@@ -25,6 +26,7 @@ class Package extends BaseModel
     protected $casts = [
         'status' => PackageStatusEnum::class,
         'payment_type' => StockPaymentTypeEnum::class,
+        'type' => StockTypeEnum::class
     ];
 
     protected $fillable = [
@@ -38,10 +40,11 @@ class Package extends BaseModel
         'cp_category_id',
         'status',
         'percent_paid_by_ubgxu',
-        'percent_paid_by_money', 
+        'percent_paid_by_money',
         'package_code',
         'payment_type',
-        'commission'
+        'commission',
+        'type'
     ];
 
     public function setCommissionAttribute($value){

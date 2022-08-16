@@ -21,5 +21,9 @@ return [
         'coin' => 'Trả lãi bằng xu',
         'vnd' => 'Trả lãi tiền mặt',
         'all' => 'Trả lãi xu & tiền mặt'
+    ],
+    'type' => [
+        'official' => 'Chính quy',
+        'trial' => 'Trải nghiệm'
     ]
 ];

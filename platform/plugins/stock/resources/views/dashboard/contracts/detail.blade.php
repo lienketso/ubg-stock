@@ -7,7 +7,7 @@
                 <div class="col-12">
                     <div role="alert" class="alert alert-info">
                         <h4 class="alert-heading">
-                            Hợp đồng số: {{$contract->contract_code}}
+                            Hợp đồng số: {{$contract->contract_hard_code}}
                         </h4>
                         <hr>
                         <p class="mb-0">Giá trị HĐ đầu tư: {{format_price($contract->first_buy_price)}}</p>
@@ -76,33 +76,33 @@
                 </div>
 
                 @if ($contract->payment_type == \Botble\Stock\Enums\StockPaymentTypeEnum::ALL || $contract->payment_type == \Botble\Stock\Enums\StockPaymentTypeEnum::VND)
-                <div class="col-lg-3">
-                    <div class="card card-body mb-4">
-                        <article class="icontext">
+                    <div class="col-lg-3">
+                        <div class="card card-body mb-4">
+                            <article class="icontext">
                             <span class="icon icon-sm rounded-circle bg-primary-light">
                                 <i class="text-warning material-icons md-monetization_on"></i>
                             </span>
-                            <div class="text"><h6 class="mb-1 card-title">Lợi tức truyền thống hàng ngày</h6>
-                                <span>{{format_price($contract->daily_profit_amount)}}</span>
-                            </div>
-                        </article>
+                                <div class="text"><h6 class="mb-1 card-title">Lợi tức truyền thống hàng ngày</h6>
+                                    <span>{{format_price($contract->daily_profit_amount)}}</span>
+                                </div>
+                            </article>
+                        </div>
                     </div>
-                </div>
                 @endif
 
                 @if ($contract->payment_type == \Botble\Stock\Enums\StockPaymentTypeEnum::ALL || $contract->payment_type == \Botble\Stock\Enums\StockPaymentTypeEnum::COIN)
-                <div class="col-lg-3">
-                    <div class="card card-body mb-4">
-                        <article class="icontext">
+                    <div class="col-lg-3">
+                        <div class="card card-body mb-4">
+                            <article class="icontext">
                             <span class="icon icon-sm rounded-circle bg-primary-light">
                                 <i class="text-warning material-icons md-monetization_on"></i>
                             </span>
-                            <div class="text"><h6 class="mb-1 card-title">Lợi tức xu hàng ngày</h6>
-                                <span>{{number_format($contract->daily_profit_amount_xu)}}xu</span>
-                            </div>
-                        </article>
+                                <div class="text"><h6 class="mb-1 card-title">Lợi tức xu hàng ngày</h6>
+                                    <span>{{number_format($contract->daily_profit_amount_xu)}}xu</span>
+                                </div>
+                            </article>
+                        </div>
                     </div>
-                </div>
                 @endif
 
                 <div class="col-lg-3">
@@ -122,7 +122,7 @@
                 <div class="col-12">
                     <div class="card mt-4 mb-4">
                         <header class="card-header">
-                            <h4 class="card-title">Lịch sư nhận lợi tức của HĐ</h4>
+                            <h4 class="card-title">Lịch sử nhận lợi tức của HĐ</h4>
                         </header>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -138,7 +138,7 @@
                                         <tbody>
                                         @forelse ($contactHistory as $history)
                                             <tr>
-                                                <td>{{ $history->created_at->format('d/m/Y') }}</td>
+                                                <td>{{ \Carbon\Carbon::create($history->history_date)->format('d/m/Y') }}</td>
                                                 <td><strong>{{ format_price($history->amount) }}</strong></td>
                                                 <td><strong>{{ $history->amount_xu }} xu</strong></td>
                                             </tr>
@@ -161,8 +161,8 @@
 
 @push('footer')
     <script>
-		var BotbleVariables = BotbleVariables || {};
-		BotbleVariables.languages = BotbleVariables.languages || {};
-		BotbleVariables.languages.reports = {!! json_encode(trans('plugins/ecommerce::reports.ranges'), JSON_HEX_APOS) !!}
+        var BotbleVariables = BotbleVariables || {};
+        BotbleVariables.languages = BotbleVariables.languages || {};
+        BotbleVariables.languages.reports = {!! json_encode(trans('plugins/ecommerce::reports.ranges'), JSON_HEX_APOS) !!}
     </script>
 @endpush

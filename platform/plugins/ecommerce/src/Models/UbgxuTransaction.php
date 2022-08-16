@@ -33,7 +33,9 @@ class UbgxuTransaction extends BaseModel
         'rest_cashback_amount',
         'compare_code',
         'percent_cashback',
-        'user_id'
+        'user_id',
+        'created_at',
+        'updated_at'
     ];
 
     /**

@@ -20,7 +20,7 @@ class PackageRequest extends Request
             'name'   => 'required',
             'percentage'  => 'min:0|max:100|required',
             'price_per_stock'  => 'integer|required',
-            'qty_of_stock'  => 'integer|required',
+            'qty_of_stock'  => 'required',
             'cp_category_id'  => 'integer|required',
             'status' => Rule::in(PackageStatusEnum::values()),
             'commission[]' => 'array',

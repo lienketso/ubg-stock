@@ -5,6 +5,7 @@ namespace Botble\Stock\Tables;
 use BaseHelper;
 use Botble\Ecommerce\Enums\CollaboratorLevelEnums;
 use Botble\Stock\Enums\PackageStatusEnum;
+use Botble\Stock\Enums\StockTypeEnum;
 use Botble\Stock\Repositories\Interfaces\PackageInterface;
 use Botble\Table\Abstracts\TableAbstract;
 use Html;
@@ -83,6 +84,9 @@ class PackageTable extends TableAbstract
             ->editColumn('status', function ($item) {
                 return $item->status->toHtml();
             })
+            ->editColumn('type', function ($item) {
+                return $item->type->toHtml();
+            })
 //            ->editColumn('commission', function ($item) {
 //                $text = '';
 //                $commission = json_decode($item->commission);
@@ -116,7 +120,8 @@ class PackageTable extends TableAbstract
             'percent_paid_by_money',
             'price_per_stock',
             'qty_of_stock',
-            'commission'
+            'commission',
+            'type'
         ]);
 
         return $this->applyScopes($query);
@@ -155,6 +160,10 @@ class PackageTable extends TableAbstract
             'percent_paid_by_ubgxu' => [
                 'title' => 'Lợi tức xu / năm',
                 'class' => 'text-start',
+            ],
+            'type' => [
+                'title' => 'Hình thức gói',
+                'width' => '100px',
             ],
             'end_date' => [
                 'title' => 'Kỳ hạn',
@@ -203,12 +212,17 @@ class PackageTable extends TableAbstract
                 'type' => 'text',
                 'validate' => 'required|max:120',
             ],
-
             'status' => [
                 'title' => trans('core/base::tables.status'),
                 'type' => 'customSelect',
                 'choices' => PackageStatusEnum::labels(),
                 'validate' => 'required|in:' . implode(',', PackageStatusEnum::values()),
+            ],
+            'type' => [
+                'title' => 'Loại HĐ',
+                'type' => 'customSelect',
+                'choices' => StockTypeEnum::labels(),
+                'validate' => 'required|in:' . implode(',', StockTypeEnum::values()),
             ],
             'created_at' => [
                 'title' => trans('core/base::tables.created_at'),
