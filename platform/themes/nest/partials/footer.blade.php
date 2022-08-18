@@ -1,5 +1,5 @@
     <footer class="main">
-        {!! dynamic_sidebar('pre_footer_sidebar') !!}
+{{--        {!! dynamic_sidebar('pre_footer_sidebar') !!}--}}
 
         <section class="section-padding footer-mid">
             <div class="container pt-15 pb-20">
