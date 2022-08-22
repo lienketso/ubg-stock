@@ -298,7 +298,7 @@ class StockController
                     $today_contract = '0' . $today_contract;
                 }
                 $province = $this->provinceRepository->getModel()->where('name', '=', $request->area)->first();
-                $contract_hard_code = $province->gso_id . '-' . $request->package_code . '-' . $today_contract . '-' . $request->category_code . '-' . date('m') . '-' . date('Y');
+                $contract_hard_code = $province->gso_id . '-' . $request->package_code . '-' . $request->contract_id . '-' . $request->category_code . '-' . date('m') . '-' . date('Y');
                 $args = ['replyTo' => [$request->name => $request->email]];
                 $code = $request->input('contract_code');
 
