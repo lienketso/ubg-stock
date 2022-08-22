@@ -91,9 +91,9 @@
                                 <div class="order-body-payment-info">
                                     <h4>Thông tin thanh toán hợp đồng</h4>
                                     <p>Số tiền: <span class="money">{{format_price($contract->first_buy_price)}}</span></p>
-                                    <p>Tài khoản thụ hưởng: <b>Công ty cổ phần UBG</b></p>
-                                    <p>Số tài khoản: <b>711A3123131313</b></p>
-                                    <p>Ngân hàng: <b>Techcombank</b></p>
+                                    <p>Tài khoản thụ hưởng: <b>Công ty Cổ Phần - Tập Đoàn UBG</b></p>
+                                    <p>Số tài khoản: <b>13510001200063</b></p>
+                                    <p>Ngân hàng: <b>Ngân hàng BIDV- CN Gia Định</b></p>
                                     <p>Mã đối chiếu: <b>{{$contract->contract_code}}</b></p>
                                 </div>
                             </div>

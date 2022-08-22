@@ -7,4 +7,4 @@ Disallow: /cart/
 Disallow: /wishlist/
 Disallow: /compare/
 Disallow: /checkout/
-Sitemap: https://ubgmart.com/sitemap.xml
+Sitemap: https://cophan.ubg.vn/sitemap.xml
