@@ -177,7 +177,7 @@ class ContractController extends BaseController
 
         $package = $this->packageRepository->findById($contract->package_id);
 
-        $templateProcessor = new TemplateProcessor('storage/hd-co-phan-ubg.docx');
+        $templateProcessor = new TemplateProcessor('storage/hd-co-phan-v3.docx');
         $templateProcessor->setValue('contract_hard_code', $contract->contract_hard_code);
         $templateProcessor->setValue('full_name', Str::upper($customer->name));
         $templateProcessor->setValue('day', $day);
