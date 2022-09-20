@@ -315,7 +315,7 @@ class StockController
                     ->sendUsingTemplate('new-sign-contract', null, $args);
                 //update trạng thái hợp đồng sang thành yêu cầu ký
                 $this->contractRepository->update([
-                    'contract_code' => $code
+                    'id' => $request->contract_id
                 ], [
                     'status' => ContractStatusEnum::REQUEST_TO_SIGN,
                     'address' => $request->address,
