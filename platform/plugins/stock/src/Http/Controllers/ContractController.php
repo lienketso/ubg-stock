@@ -210,7 +210,7 @@ class ContractController extends BaseController
         $templateProcessor->setValue('total_percent_month',$totalPercentMonth );
         //số tài khoản khách hàng
         $bankInfor = $this->customerWalletRepository->getFirstBy(['customer_id'=>$customer->id]);
-        if(is_null($bankInfor) || empty($bankInfor)){
+        if(empty($bankInfor) && is_null($bankInfor->bank_info)){
             $bank_number = '';
             $bank_branch = '';
             $bank_name = '';
