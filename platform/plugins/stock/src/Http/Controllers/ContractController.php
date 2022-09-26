@@ -246,12 +246,14 @@ class ContractController extends BaseController
         //Khởi tạo đối tượng writer
         if(!is_null($contract->contract_hard_code)){
             $templateProcessor->saveAs( $path.'/'.$contract->contract_hard_code.'.docx');
+            return redirect()->to($path.'/'.$contract->contract_hard_code.'.docx');
         }else{
             $templateProcessor->saveAs( $path.'/'.'contract.docx');
+            return redirect()->to($path.'/'.'contract.docx');
         }
 
 
-        return redirect()->to($path.'/'.$contract->contract_hard_code.'.docx');
+
         //Tạo tập tin Word
     }
 
