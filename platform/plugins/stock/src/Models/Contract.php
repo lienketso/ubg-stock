@@ -22,7 +22,6 @@ class Contract extends BaseModel
      * @var string[]
      */
     protected $fillable = [
-        'package_id',
         'customer_id',
         'name',
         'datebirth',

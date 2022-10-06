@@ -55,8 +55,6 @@ Route::group(['namespace' => 'Theme\Nest\Http\Controllers', 'middleware' => ['we
         Route::get('ajax/check-xu', 'NestController@checkXu')
             ->name('public.ajax.checkxu');
             
-        Route::get('ajax/check-customer', 'NestController@checkCustomer')
-            ->name('public.ajax.check-customer');    
     });
 });
 
