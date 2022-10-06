@@ -89,6 +89,8 @@ Route::group(['namespace' => 'Botble\Stock\Http\Controllers\Fronts', 'middleware
             'uses' => 'StockController@stockCategory'
         ]);
 
+       
+
         //get package by cp_category
         Route::get(SlugHelper::getPrefix(CPCategory::class, 'stock-category') . '/{slug}', [
             'as' => 'public.packages',
@@ -96,12 +98,40 @@ Route::group(['namespace' => 'Botble\Stock\Http\Controllers\Fronts', 'middleware
         ]);
 
         Route::group(['middleware' => 'customer'], function() {
+            //create customer
+            Route::get('stock/cp-create-customer/{phone}', [
+                'as' => 'public.cp-create-customer',
+                'uses' => 'StockController@createCustomer'
+            ]);
+
+            //create customer post
+            Route::post('stock/cp-create-customer', [
+                'as' => 'public.cp-create-customer.post',
+                'uses' => 'StockController@postCreateCustomer'
+            ]);
+
+             //create Contract
+             Route::get('stock/cp-create-contract/{phone}', [
+                'as' => 'public.cp-create-contract',
+                'uses' => 'StockController@createContract'
+            ]);
+
+            //create contract
+            Route::post('stock/cp-create-contract', [
+                'as' => 'public.cp-create-contract.post',
+                'uses' => 'StockController@postCreateContract'
+            ]);
+
             //customer click booking package
             Route::post('stock/book-package', [
                 'as' => 'public.book-package.post',
                 'uses' => 'StockController@bookPackage'
             ]);
-
+             //view checkCustomer
+            Route::get('stock/check-customer', [
+                'as' => 'public.check-customer',
+                'uses' => 'StockController@checkCustomer',
+            ]);
             //preview booking package
             Route::get('stock/book-package/{code}', [
                 'as' => 'public.book-package',

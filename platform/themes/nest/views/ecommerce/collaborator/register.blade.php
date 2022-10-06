@@ -24,7 +24,7 @@
                 <div class="col-12 col-lg-6">
                     <div class="card-upload-wrapper">
                         <div class="form-group">
-                            <label for="card_front">Ảnh CMND mặt trước <span style="color: red">*</span></label>
+                            <label for="card_front">Ảnh CMND mặt trước <span class="required">*</span></label>
                             <div class="card-upload-inner">
                                 <p class="card-upload-button">Tải ảnh lên</p>
                                 <input type="file" name="card_front" accept="image/png, image/gif, image/jpeg" class="card-preview d-none">
@@ -37,7 +37,7 @@
                 <div class="col-12 col-lg-6">
                     <div class="card-upload-wrapper">
                         <div class="form-group">
-                            <label for="card_back">Ảnh CMND mặt sau <span style="color: red">*</span></label>
+                            <label for="card_back">Ảnh CMND mặt sau <span class="required">*</span></label>
                             <div class="card-upload-inner">
                                 <p class="card-upload-button">Tải ảnh lên</p>
                                 <input type="file" name="card_back" accept="image/png, image/gif, image/jpeg" class="card-preview d-none">

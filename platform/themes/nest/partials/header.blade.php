@@ -77,11 +77,7 @@
     {!! Theme::partial('preloader') !!}
 
 <header class="header-area header-style-1 header-height-2 {{ $headerStyle }}">
-@if (theme_option('mobile-header-message'))
-    <div class="mobile-promotion">
-        {!! clean(theme_option('mobile-header-message')) !!}
-    </div>
-@endif
+
 <div class="header-top header-top-ptb-1 d-none d-lg-block">
     <div class="container">
         <div class="row align-items-center">

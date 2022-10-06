@@ -7,6 +7,8 @@ use Botble\Ecommerce\Models\Customer;
 use Botble\Ecommerce\Models\Province;
 use Botble\Ecommerce\Repositories\Interfaces\ProvinceInterface;
 use Botble\Slug\Repositories\Interfaces\SlugInterface;
+use Botble\Ecommerce\Rules\CheckPresenterCode;
+use Illuminate\Support\Facades\Validator;
 use Botble\Stock\Enums\ContractPaymentStatusEnum;
 use Botble\Stock\Enums\ContractStatusEnum;
 use Botble\Stock\Enums\StockTypeEnum;
@@ -23,9 +25,12 @@ use Botble\Stock\Repositories\Interfaces\CPCategoryInterface;
 use Botble\Stock\Repositories\Interfaces\CPHistoryInterface;
 use Botble\Stock\Repositories\Interfaces\PackageInterface;
 use Botble\Stock\Repositories\Interfaces\WithdrawInterface;
+use Botble\Ecommerce\Repositories\Interfaces\CustomerInterface;
+use Botble\Stock\Http\Requests\ContractRequest;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Botble\Stock\Http\Requests;
 use Theme;
 use SlugHelper;
 use Illuminate\Support\Str;
@@ -43,6 +48,7 @@ class StockController
     protected $withdrawRepository;
     protected $chartRepository;
     protected $provinceRepository;
+    protected $customerRepository;
 
     /**
      * StockController constructor.
@@ -62,6 +68,7 @@ class StockController
         ContractInterface $contractRepository,
         CPHistoryInterface $historyRepository,
         WithdrawInterface $withdrawRepository,
+        CustomerInterface $customerRepository,
         ChartInterface $chartRepository, ProvinceInterface $provinceRepository
     )
     {
@@ -73,12 +80,137 @@ class StockController
         $this->withdrawRepository = $withdrawRepository;
         $this->chartRepository = $chartRepository;
         $this->provinceRepository = $provinceRepository;
+        $this->customerRepository = $customerRepository;
+    }
+
+     /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function checkCustomer()
+    {
+        if (!auth('customer')->check()) {
+            return $response->setNextUrl(route('customer.login'));
+        }
+        
+        return view('plugins/stock::themes.check-customer');
+    }
+
+    
+     /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function createCustomer($phone)
+    {
+        if (!auth('customer')->check()) {
+            return $response->setNextUrl(route('customer.login'));
+        }
+       
+        return view('plugins/stock::themes.create-customer', compact('phone'));
+    }
+
+    /**
+     * Handle a registration request for the application.
+     * @param Request $request
+     * @param BaseHttpResponse $response
+     * @return BaseHttpResponse|mixed
+     * @throws \Illuminate\Validation\ValidationException
+     */
+  
+    public function postCreateCustomer(Request $request, BaseHttpResponse $response)
+    {
+        if (!auth('customer')->check()) {
+            return $response->setNextUrl(route('customer.login'));
+        }
+        $sale = auth('customer')->user();
+
+        $this->validator($request->input())->validate();
+        
+        
+        $customer = $this->create($request->input());
+
+        $customer->confirmed_at = now();
+        $customer->affiliation_id = intval(1000000 + $customer->id);
+        $customer->presenter_id = $sale->affiliation_id;
+        $customer->is_verified = 1;        
+
+        $this->customerRepository->createOrUpdate($customer);
+        $phone = $customer->phone;
+        return $response->setNextUrl(route('public.cp-create-contract', compact('phone')))        
+        ->setMessage('Tạo tài khoản thành công');
+    }
+
+
+    /**
+     * @param $phone
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function createContract($phone)
+    {
+        if (!auth('customer')->check()) {
+            return $response->setNextUrl(route('customer.login'));
+        }
+       
+        $sale = auth('customer')->user();
+        return view('plugins/stock::themes.create-contract', compact('phone'));
     }
 
     /**
      * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
+
+    /**
+     * Handle a registration request for the application.
+     * @param Request $request
+     * @param BaseHttpResponse $response
+     * @return BaseHttpResponse|mixed
+     * @throws \Illuminate\Validation\ValidationException
+     */
+  
+    public function postCreateContract(ContractRequest $request, BaseHttpResponse $response)
+    {
+        if (!auth('customer')->check()) {
+            return $response->setNextUrl(route('customer.login'));
+        }
+        $vendor = $this->customerRepository->getFirstBy([
+            'phone'                 => $request->input('phone')
+        ]);
+
+        if(!$vendor) {
+            $response->setNextUrl(route('public.cp-create-contract'))
+            ->setError()
+            ->setMessage('Khách hàng không tồn tại!');
+        }
+
+
+        $sale = auth('customer')->user();
+
+        // $this->validator($request->input())->validate();
+        
+        $contract = $this->contractRepository->createOrUpdate($request->input());
+
+        //upload ảnh CMND
+        $card_front = rv_media_handle_upload($request->file('card_front'), '0', 'cmnd-ctv');
+        $card_back = rv_media_handle_upload($request->file('card_back'), '0', 'cmnd-ctv');
+
+        $contract->card_front = $card_front['data']->url;
+        $contract->card_back = $card_back['data']->url;      
+        $contract->presenter_id = $sale->affiliation_id;
+        $contract->contract_code = $sale->affiliation_id;
+        $contract->customer_id = $vendor->id;
+        $contract->status = ContractStatusEnum::SIGNED;    
+        $contract->phone = $request->input('phone');
+
+        $this->contractRepository->createOrUpdate($contract);
+        
+
+        return $response->setNextUrl(route('public.index'))
+        ->setMessage('Tạo hợp đồng thành công!');
+    }
+
+
     public function stockCategory(Request $request)
     {
         Theme::breadcrumb()
@@ -435,5 +567,48 @@ class StockController
             ->get();
         return view('plugins/stock::themes.templates.chart', compact('chart'));
     }
+
+        /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param array $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function validator(array $data)
+    {
+        $rules = [
+            'name' => 'required|min:6',
+            'phone' => ['required', 'regex:/([\+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\b/', 'unique:ec_customers'],
+            'password' => 'required|min:6|confirmed',
+        ];
+        
+
+        $attributes = [
+            'phone' => 'Số điện thoại.',
+            'phone.required' => 'Số điện thoại không được bỏ trống.',
+            'phone.regex' => 'Định dạng số điện thoại không đúng.',
+            'phone.unique' => 'Số điện thoại đã được đăng ký.',
+            'password' => __('Password'),
+        ];
+
+        return Validator::make($data, $rules, $attributes);
+    }
+     /**
+     * Create a new user instance after a valid registration.
+     *
+     * @param array $data
+     * @return Customer
+     */
+    protected function create(array $data)
+    {
+        return $this->customerRepository->create([
+            'name' => clean($data['name']),
+            'phone' => clean($data['phone']),
+            'password' => bcrypt($data['password'])
+        ]);
+    }
+
+  
+
 
 }

@@ -58,8 +58,8 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
-        SeoHelper::setTitle(__('Login'));
-
+        SeoHelper::setTitle(__('Login')); 
+        
         Theme::breadcrumb()->add(__('Home'), route('public.index'))->add(__('Login'), route('customer.login'));
 
         if (!session()->has('url.intended')) {

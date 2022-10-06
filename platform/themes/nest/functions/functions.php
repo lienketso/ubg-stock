@@ -14,6 +14,8 @@ use Botble\SimpleSlider\Models\SimpleSliderItem;
 
 register_page_template([
     'full-width'    => __('Full width'),
+    'mobile'        => __('Mobile'),
+    'mobile-login'  => __('Mobile Login'),
     'homepage'      => __('Homepage'),
     'right-sidebar' => __('Page Right Sidebar'),
     'blog-grid'     => __('Blog Grid'),

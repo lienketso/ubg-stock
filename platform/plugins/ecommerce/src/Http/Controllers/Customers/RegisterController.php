@@ -131,6 +131,51 @@ class RegisterController extends Controller
         ]));
     }
 
+    public function createCustomer(Request $request, BaseHttpResponse $response)
+    {
+        $this->validator($request->input())->validate();
+
+        do_action('customer_register_validation', $request);
+
+        $customer = $this->create($request->input());
+        // $otp = $this->refreshOtp($customer->phone);
+
+        event(new Registered($customer));
+
+//        if (EcommerceHelper::isEnableEmailVerification()) {
+//            return $this->registered($request, $customer)
+//                ?: $response->setNextUrl(route('customer.login'))
+//                    ->setMessage(__('Please confirm your email address.'));
+//        }
+
+        $customer->confirmed_at = now();
+        $customer->affiliation_id = intval(1000000 + $customer->id);
+
+        if ($request->input('affiliation_id') != null) {
+
+            $presenterUser = $this->customerRepository->getFirstBy([
+                'affiliation_id' => $request->input('affiliation_id')
+            ]);
+
+            $customer->presenter_id = $presenterUser->id;
+        }
+
+        $this->customerRepository->createOrUpdate($customer);
+        //$this->guard()->login($customer);
+
+        //call voice OTP
+        $this->callVoiceOtp($otp, $customer->phone);
+
+        return $response->setNextUrl(route('customer.phone-verify', [
+            'token' => base64_encode(
+                json_encode([
+                    'phone' => $request->input('phone'),
+                    'password' => $request->input('password'),
+                ])
+            )
+        ]));
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -234,7 +279,7 @@ class RegisterController extends Controller
         $this->guard()->login($customer);
 
         return $response
-            ->setNextUrl(route('customer.overview'))
+            ->setNextUrl(route('public.index'))
             ->setMessage(__('You successfully confirmed your email address.'));
     }
 

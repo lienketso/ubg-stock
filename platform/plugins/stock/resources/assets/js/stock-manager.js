@@ -667,4 +667,27 @@ $(document).ready(() => {
 	});
 	
 
+	$(document).on('click', '.card-upload-button', function () {
+        let formInput = $(this).next();
+        formInput.click();
+    })
+
+    $(document).on('click', '.card-upload-inner img', function () {
+        let formInput = $(this).prev('input');
+        formInput.click();
+    })
+
+    $('.card-preview').change(function () {
+        const [file] = $(this).prop('files');
+        let image = $(this).next();
+        if (file) {
+            image.attr('src', URL.createObjectURL(file))
+        }
+    })
+
+	$('.form-date-time').datetimepicker({
+		format: 'DD/MM/YYYY'
+	});
+
+
 })(jQuery);

@@ -15,11 +15,11 @@
     </div>
     <div class="main-navigation">
         <ul>
-            <li><a href="{{route('public.cp-category')}}">Trang chủ</a></li>
-            <li><a href="{{route('public.cp-category')}}#section-stock-category">Gói đầu tư</a></li>
-            <li><a href="">Hỗ trợ</a></li>
-            <li><a href="https://ubgmart.com">Mua sắm</a></li>
-            <li><a href="{{route('stock-manager.dashboard')}}">Quản lý hợp đồng</a></li>
+            <li><a href="{{route('stock-manager.dashboard')}}">Tổng quan</a></li>
+            <li><a href="#">Hợp đồng đã thanh toán</a></li>
+            <li><a href="#">Hợp đồng chờ thanh toán</a></li>
+            <li><a href="#">Hợp đồng hết hạn</a></li>
+            <li><a href="{{ route('public.check-customer')}}">Tạo hợp đồng</a></li>
         </ul>
     </div>
 </header>

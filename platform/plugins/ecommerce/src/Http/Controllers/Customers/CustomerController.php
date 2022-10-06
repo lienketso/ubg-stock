@@ -322,7 +322,7 @@ class CustomerController extends BaseController
         auth('customer')->loginUsingId($id);
 
         return $response
-            ->setNextUrl(route('customer.overview'))
+            ->setNextUrl(route('public.index'))
             ->setMessage('Đăng nhập dưới tư cách cộng tác viên: ' . $customer->name);
     }
 

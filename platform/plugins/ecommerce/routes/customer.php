@@ -158,7 +158,7 @@ if (defined('THEME_MODULE_SCREEN_NAME')) {
                 'as'   => 'overview',
                 'uses' => 'PublicController@getOverview',
             ]);
-
+            
             Route::get('edit-account', [
                 'as'   => 'edit-account',
                 'uses' => 'PublicController@getEditAccount',

@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="{{ asset('vendor/core/plugins/stock/vendor/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css') }}?v=2.3.4">
     <link rel="stylesheet" href="{{ asset('vendor/core/plugins/stock/vendor/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.min.css') }}?v=2.3.4">
     <link rel="stylesheet" href="{{ asset('vendor/core/core/base/libraries/toastr/toastr.min.css') }}?v=1.0.0">
+    <link rel="stylesheet" href="{{ asset('/vendor/core/core/base/libraries/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css') }}?v=1.0.0">
 
     <!-- Put translation key to translate in VueJS -->
     <script type="text/javascript">
@@ -51,13 +52,11 @@
     @yield('content')
 
     @include('plugins/stock::themes.layouts.footer')
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 
     {!! Html::script('vendor/core/core/base/libraries/toastr/toastr.min.js') !!}
 
-    <script src="{{ asset('vendor/core/plugins/stock/js/stock-manager.js') }}?v=1.0.0"></script>
     @if (session()->has('status') || session()->has('success_msg') || session()->has('error_msg') || (isset($errors) && $errors->count() > 0) || isset($error_msg))
         <script type="text/javascript">
 		    'use strict';
@@ -81,7 +80,8 @@
             @endif
         </script>
     @endif
-
+    <script src="{{ asset('/vendor/core/core/base/libraries/moment-with-locales.min.js') }}?v=2.3.4"></script>
+    <script src="{{ asset('vendor/core/core/base/libraries/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js') }}?v=2.3.4"></script>
     <script src="{{ asset('vendor/core/plugins/stock/vendor/OwlCarousel2-2.3.4/dist/owl.carousel.min.js') }}?v=2.3.4"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
     <script src="{{ asset('vendor/core/plugins/stock/js/stock-manager.js') }}?v=1.0.0"></script>

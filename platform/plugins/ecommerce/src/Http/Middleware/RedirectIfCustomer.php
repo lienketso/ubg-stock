@@ -19,7 +19,7 @@ class RedirectIfCustomer
     public function handle($request, Closure $next, $guard = 'customer')
     {
         if (Auth::guard($guard)->check()) {
-            return redirect(route('customer.overview'));
+            return redirect(route('public.index'));
         }
 
         return $next($request);

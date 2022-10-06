@@ -5,26 +5,41 @@ namespace Theme\Nest\Http\Controllers;
 
 
 use Botble\Base\Http\Controllers\BaseController;
+use Botble\Stock\Repositories\Interfaces\ContractInterface;
 use Botble\Stock\Repositories\Interfaces\CPCategoryInterface;
+use Botble\Base\Http\Responses\BaseHttpResponse;
 use Theme;
 
 class StockController extends BaseController
 {
 
-    protected $category;
+    protected $contract;
 
-    public function __construct(CPCategoryInterface $category)
+    public function __construct(ContractInterface $contract)
     {
-        $this->category = $category;
+        $this->contract = $contract;
     }
 
-    public function getIndexStock(){
-        Theme::breadcrumb()
-            ->add(__('Home'), route('public.index'))
-            ->add(__('Danh mục đầu tư'), route('public.cp-category'));
-        $listCategory = $this->category->getModel()
-            ->where('status', 'published')
-            ->orderBy('sort_order', 'asc')->get();
-        return view('plugins/stock::themes.cp-category', compact('listCategory'));
+    public function getIndexStock(
+        BaseHttpResponse $response,
+    ){
+       
+        if (!auth('customer')->check()) {
+            return $response->setNextUrl(route('customer.login'));
+        }
+        $user =  auth('customer')->user();
+    
+        $model =  $this->contract->getModel();
+        $totalContract = $model->where('presenter_id','=', $user->affiliation_id)->get()->count();
+        $paidContract = $model->where([['presenter_id','=', $user->affiliation_id],['status', '=', 'active']])->get()->count();
+        $signedContract = $model->where([['presenter_id','=', $user->affiliation_id],['status', '=', 'signed']])->get()->count();
+        $expiredContract = $model->where([['presenter_id','=', $user->affiliation_id],['status', '=', 'expired']])->get()->count();
+        $sumContract = $model->where([['presenter_id','=', $user->affiliation_id],['status', '=', 'expired']])
+                        ->orWhere([['presenter_id','=', $user->affiliation_id],['status', '=', 'active']])->sum('suat_dau_tu');
+
+
+        return view('plugins/stock::themes.cp-category', compact('totalContract', 'paidContract', 'signedContract', 'expiredContract', 'sumContract'));
     }
+
+  
 }

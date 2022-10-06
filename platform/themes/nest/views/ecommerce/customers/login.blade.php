@@ -1,23 +1,20 @@
 @php
-    Theme::layout('full-width');
+    Theme::layout('mobile-login');
 @endphp
 
-<div class="page-content pt-30 pb-30">
+<div class="page-content pt-50 pb-30">
     <div class="container">
         <div class="row">
-            <div class="col-xl-8 col-lg-10 col-md-12 m-auto">
+            <div class="col-xl-12 col-lg-12 col-md-12 m-auto">
+                <img class="login-logo border-radius-15" src="{{Theme::asset()->url('imgs/logo.png')}}" alt="{{ theme_option('site_name') }}" />
                 <div class="row">
-                    <div class="col-lg-6 pr-30 d-none d-lg-block">
-                        @if ($image = theme_option('image_in_login_page', theme_option('logo')))
-                            <img class="border-radius-15" src="{{ RvMedia::getImageUrl($image) }}" alt="{{ theme_option('site_name') }}" />
-                        @endif
-                    </div>
+                   
                     <div class="col-lg-6 col-md-8">
                         <div class="login_wrap widget-taber-content background-white">
                             <div class="padding_eight_all bg-white">
                                 <div class="heading_s1">
                                     <h1 class="mb-5">{{ __('Login') }}</h1>
-                                    <p class="mb-30">{{ __("Don't have an account?") }} <a href="{{ route('customer.register') }}">{{ __('Create one') }}</a></p>
+                                    {{-- <p class="mb-30">{{ __("Don't have an account?") }} <a href="{{ route('customer.register') }}">{{ __('Create one') }}</a></p> --}}
                                 </div>
                                 <form method="POST" action="{{ route('customer.login.post') }}">
                                     @csrf
@@ -28,12 +25,14 @@
                                         <br>
                                     @endif
                                     <div class="form-group">
+                                        <label for="">Số điện thoại</label>
                                         <input name="phone" required id="txt-phone" type="text" value="{{ old('phone') }}" placeholder="Số điện thoại*">
                                         @if ($errors->has('phone'))
                                             <span class="text-danger">{{ $errors->first('phone') }}</span>
                                         @endif
                                     </div>
                                     <div class="form-group form-password-input">
+                                        <label for="">Mật khẩu</label>
                                         <input type="password" required name="password" id="txt-password" placeholder="{{ __('Your password') }}*">
                                         <span class="toggle-show-password">
                                             <i class="fi-rs-eye active-icon"></i>

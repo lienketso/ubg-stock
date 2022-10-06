@@ -19,6 +19,112 @@ body {
 	}
 }
 
+.cp-wrapper{
+    background: #e1e1e1 !important;
+	.create-contract-title{
+		font-weight: bold;
+		font-size: 22px;
+		padding: 15px 0;
+	}
+	span.required{
+		color: red;
+	}
+	#form-check-customer{
+		padding-bottom: 100px;
+		.form-group{
+			padding-bottom: 15px;
+		}
+		label{
+			margin-bottom: 5px;
+		}
+		input{
+			font-size: 14px;
+		}
+		button{
+			width: 100%;
+			background: #0a4978;
+			border-color: #0a4978;
+		}
+		small{
+			padding: 0px 0 15px 0;
+			display: block;
+		}
+		#cp_customer_info{
+			background: #fff;
+			border-radius: 5px;
+			margin-top: 20px;
+			padding: 15px;
+			p{
+				margin-bottom: 5px;
+			}
+		}
+		
+	}
+	.overview-title{
+		padding-top: 20px;
+		padding-bottom: 10px;
+		font-size: 22px;
+	}
+	.overview-list{
+		padding-bottom: 15px;
+		
+		.item{
+			box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+			display: flex;
+			background: #FFFFFF;
+			// border: 1px solid rgba(0, 0, 0, 0.2);
+			border-radius: 10px;
+			margin-bottom: 15px;
+			&:last-child{
+				margin-bottom: 0;
+			}
+			.icon{
+				align-self: center;
+				font-size: 25px;
+				padding: 0 20px;
+				color: #0a4978;
+				width: 60px;
+			}
+			.text{
+				align-self: center;
+				padding: 15px 10px;
+				p{
+					margin: 0;
+				}
+				h3{
+					margin: 0;
+					font-weight: bold;
+					font-size: 20px;
+				}
+			}
+		}
+		
+	}
+
+	.btn-create-cp{
+		position: fixed;
+		bottom: 100px;
+		right: 15px;
+		background: #0a4978 ;
+		color: #fff;
+		// padding: 10px 15px;
+		line-height: 46px;
+		font-size: 20px;
+		box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+		border-radius: 50%;
+		width: 46px;
+		height: 46px;
+		text-align: center;
+		text-decoration: none;
+	}
+	.bg-ubg-stock{
+		max-width: 100%;
+		margin: 30px 0 5px 0;
+		border-radius: 10px;
+		
+	}
+}
+
 .action-button {
 	color: #fff;
 	background-color: var(--color-primary);
@@ -452,11 +558,11 @@ body {
 }
 
 .footer {
-	padding: 40px 0;
+	padding: 15px 0;
 	background-color: #353535;
 	color: #fff;
 	.footer-copyright {
-		margin-top: 30px;
+		margin-top: 5px;
 	}
 }
 
