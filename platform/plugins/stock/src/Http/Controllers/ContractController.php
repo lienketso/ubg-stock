@@ -210,12 +210,20 @@ class ContractController extends BaseController
         $templateProcessor->setValue('total_percent_month',$totalPercentMonth );
         //số tài khoản khách hàng
         $bankInfor = $this->customerWalletRepository->getFirstBy(['customer_id'=>$customer->id]);
-        if(!is_null($bankInfor)){
-            $bank_infor = json_decode($bankInfor->bank_info);
-            $bank_name = $bank_infor->name;
-            $bank_number = $bank_infor->number;
-            $bank_full_name = $bank_infor->full_name;
-            $bank_branch = $bank_infor->branch;
+        if(!empty($bankInfor)){
+            if($bankInfor->bank_info!=null){
+                $bank_infor = json_decode($bankInfor->bank_info);
+                $bank_name = $bank_infor->name;
+                $bank_number = $bank_infor->number;
+                $bank_full_name = $bank_infor->full_name;
+                $bank_branch = $bank_infor->branch;
+            }else{
+                $bank_number = '';
+                $bank_branch = '';
+                $bank_name = '';
+                $bank_full_name = '';
+            }
+
         }else{
             $bank_number = '';
             $bank_branch = '';
@@ -236,8 +244,16 @@ class ContractController extends BaseController
 
 
         //Khởi tạo đối tượng writer
-        $templateProcessor->saveAs( $path.'/'.$contract->contract_hard_code.'.docx');
-        return redirect()->to($path.'/'.$contract->contract_hard_code.'.docx');
+        if(!is_null($contract->contract_hard_code)){
+            $templateProcessor->saveAs( $path.'/'.$contract->contract_hard_code.'.docx');
+            return redirect()->to($path.'/'.$contract->contract_hard_code.'.docx');
+        }else{
+            $templateProcessor->saveAs( $path.'/'.'contract.docx');
+            return redirect()->to($path.'/'.'contract.docx');
+        }
+
+
+
         //Tạo tập tin Word
     }
 
