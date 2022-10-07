@@ -12,8 +12,6 @@
               <label for="phone-number-customer">Số điện thoại</label>
                 <input class="form-control" name="phone" type="text"
                         value="{{ $phone }}" placeholder="Số điện thoại" required pattern="[0-9]{10}" disabled>
-                <input class="form-control" name="phone" type="hidden"
-                        value="{{ $phone }}" placeholder="Số điện thoại" required pattern="[0-9]{10}">        
                 @if ($errors->has('phone'))
                     <span class="text-danger">{{ $errors->first('phone') }}</span>
                 @endif

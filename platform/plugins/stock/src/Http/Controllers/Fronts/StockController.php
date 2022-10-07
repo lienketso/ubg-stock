@@ -187,6 +187,8 @@ class StockController
 
         $sale = auth('customer')->user();
 
+        // $this->validator($request->input())->validate();
+        
         $contract = $this->contractRepository->createOrUpdate($request->input());
 
         //upload ảnh CMND
