@@ -35,7 +35,7 @@ class StockController extends BaseController
         $signedContract = $model->where([['presenter_id','=', $user->affiliation_id],['status', '=', 'signed']])->get()->count();
         $expiredContract = $model->where([['presenter_id','=', $user->affiliation_id],['status', '=', 'expired']])->get()->count();
         $sumContract = $model->where([['presenter_id','=', $user->affiliation_id],['status', '=', 'expired']])
-                        ->orWhere([['presenter_id','=', $user->affiliation_id],['status', '=', 'active']])->sum('suat_dau_tu');
+                        ->orWhere([['presenter_id','=', $user->affiliation_id],['status', '=', 'active']])->sum('first_buy_price');
 
 
         return view('plugins/stock::themes.cp-category', compact('totalContract', 'paidContract', 'signedContract', 'expiredContract', 'sumContract'));

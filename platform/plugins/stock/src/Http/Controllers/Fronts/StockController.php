@@ -25,8 +25,10 @@ use Botble\Stock\Repositories\Interfaces\CPCategoryInterface;
 use Botble\Stock\Repositories\Interfaces\CPHistoryInterface;
 use Botble\Stock\Repositories\Interfaces\PackageInterface;
 use Botble\Stock\Repositories\Interfaces\WithdrawInterface;
+use Botble\Ecommerce\Repositories\Interfaces\WalletInterface;
 use Botble\Ecommerce\Repositories\Interfaces\CustomerInterface;
 use Botble\Stock\Http\Requests\ContractRequest;
+use Botble\ACL\Enums\UserStatusEnum;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -151,9 +153,18 @@ class StockController
         if (!auth('customer')->check()) {
             return $response->setNextUrl(route('customer.login'));
         }
+        $customer = $this->customerRepository->getFirstBy([
+            'phone'                 => $phone
+        ]);
+        if(!$customer) {
+            $response->setNextUrl(route('public.cp-create-contract'))
+            ->setError()
+            ->setMessage('Khách hàng không tồn tại!');
+        }
+
        
         $sale = auth('customer')->user();
-        return view('plugins/stock::themes.create-contract', compact('phone'));
+        return view('plugins/stock::themes.create-contract', compact('phone','customer'));
     }
 
     /**
@@ -174,11 +185,11 @@ class StockController
         if (!auth('customer')->check()) {
             return $response->setNextUrl(route('customer.login'));
         }
-        $vendor = $this->customerRepository->getFirstBy([
+        $customer = $this->customerRepository->getFirstBy([
             'phone'                 => $request->input('phone')
         ]);
-
-        if(!$vendor) {
+       
+        if(!$customer) {
             $response->setNextUrl(route('public.cp-create-contract'))
             ->setError()
             ->setMessage('Khách hàng không tồn tại!');
@@ -187,24 +198,75 @@ class StockController
 
         $sale = auth('customer')->user();
 
-        // $this->validator($request->input())->validate();
-        
-        $contract = $this->contractRepository->createOrUpdate($request->input());
 
         //upload ảnh CMND
+       
+        $customerInfo = [
+           'date_of_birth'      => $request->input('date_of_birth'),
+           'ethnic'             => $request->input('ethnic'),
+           'nationality'        => $request->input('nationality'),
+           'cmnd'               => $request->input('cmnd'),
+           'date_of_issue'      => $request->input('date_of_issue'),
+           'place_of_issue'     => $request->input('place_of_issue'),
+           'permanent_address'  => $request->input('permanent_address'),
+           'current_address'    => $request->input('current_address'),
+        ];
+        $customerInfoStr = json_encode($customerInfo);
+
+        //contract info
+        $contractInfo = [
+            'price'      => $request->input('price'),
+            'total'             => $request->input('total'),
+            'ky_han'        => $request->input('ky_han'),
+        ];
+        $contractInfoStr = json_encode($contractInfo);
+
+        $contract = $this->contractRepository->createOrUpdate(
+            [
+                'customer_info' => $customerInfoStr,
+                'status' => ContractStatusEnum::SIGNED,
+                'customer_id' => $customer->id,
+                'presenter_id' => $sale->affiliation_id,
+                'contract_info' => $contractInfoStr, 
+                'phone_ref'     => $sale->phone,
+                'first_buy_price' => $request->input('first_buy_price'),
+                'first_buy_percentage' => $request->input('first_buy_percentage'),
+                'percent_paid_by_ubgxu' => $request->input('percent_paid_by_ubgxu'),
+                'percent_paid_by_money' => $request->input('percent_paid_by_money'),
+            ]
+        );
+                  
         $card_front = rv_media_handle_upload($request->file('card_front'), '0', 'cmnd-ctv');
         $card_back = rv_media_handle_upload($request->file('card_back'), '0', 'cmnd-ctv');
 
-        $contract->card_front = $card_front['data']->url;
-        $contract->card_back = $card_back['data']->url;      
-        $contract->presenter_id = $sale->affiliation_id;
-        $contract->contract_code = $sale->affiliation_id;
-        $contract->customer_id = $vendor->id;
-        $contract->status = ContractStatusEnum::SIGNED;    
-        $contract->phone = $request->input('phone');
-
-        $this->contractRepository->createOrUpdate($contract);
+       $xxxx =  $this->customerRepository->update(['id' => $customer->id], [
+            'card_front' => $card_front['data']->url,
+            'card_back' => $card_back['data']->url
+        ]);
         
+        /**
+         * Tạo ví
+         * Check xem ví tồn tại chưa, nếu chưa thì tạo
+         */
+        $wallet = app(WalletInterface::class)->getFirstBy(['customer_id' => $customer->id]);
+        if ($wallet == null) {
+            app(WalletInterface::class)->createOrUpdate([
+                'customer_id' => $customer->id,
+                'status' => UserStatusEnum::ACTIVATED
+            ]);
+        }
+
+        $bank_info = [
+            'name' => $request->input('bank_name'),
+            'number' => $request->input('account_number'),
+            'full_name' => $request->input('account_holder'),
+            'branch' => $request->input('branch'),
+        ];
+        if ($customer && $customer->id) {
+            $walletInfo = $customer->walletInfo;
+            $walletInfo->bank_info = json_encode($bank_info);
+            $walletInfo->save();
+        }
 
         return $response->setNextUrl(route('public.index'))
         ->setMessage('Tạo hợp đồng thành công!');

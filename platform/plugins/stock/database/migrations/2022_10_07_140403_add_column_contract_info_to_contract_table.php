@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ChangeTypeCpContract extends Migration
+class AddColumnContractInfoToContractTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class ChangeTypeCpContract extends Migration
     public function up()
     {
         Schema::table('cp_contract', function (Blueprint $table) {
-            $table->enum('type',['vnd','ubgxu','vnd-ubgxu'])->default('vnd-ubgxu')->comment('Loại hình trả lãi');
+            $table->text('contract_info')->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ class ChangeTypeCpContract extends Migration
     public function down()
     {
         Schema::table('cp_contract', function (Blueprint $table) {
-            $table->dropColumn('type');
+            //
         });
     }
 }
