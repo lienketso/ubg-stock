@@ -36,8 +36,8 @@
 		$('#form-check-customer').submit(function(e){
             e.preventDefault();      
             var customerPhone = $('#customer_phone').val()   
-                urlRegister = 'http://ubg-stock.test/stock/cp-create-customer/' + customerPhone;;
-                urlCreateContract = 'http://ubg-stock.test/stock/cp-create-contract/' + customerPhone;
+                urlRegister = '/stock/cp-create-customer/' + customerPhone;;
+                urlCreateContract = '/stock/cp-create-contract/' + customerPhone;
 
 			$.ajax({
 				type: 'GET',
