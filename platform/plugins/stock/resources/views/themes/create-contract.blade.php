@@ -99,7 +99,7 @@
                             @if($customer->card_front != '')                       
                                 <img src="{{'/storage/'.$customer->card_front}}" alt="" class="img-responsive"> 
                             @else
-                                <img src="{{ Theme::asset()->url('imgs/theme/card-front.png') }}" alt="" class="img-fluid">
+                                <img style="width=250px" src="{{ Theme::asset()->url('imgs/theme/card-front.png') }}" alt="" class="img-fluid">
                             @endif
                     </div>
                 </div>
@@ -115,7 +115,7 @@
                         @if($customer->card_back != '')                       
                             <img src="{{'/storage/'.$customer->card_back}}" alt="" class="img-responsive"> 
                         @else
-                            <img src="{{ Theme::asset()->url('imgs/theme/card-back.png') }}" alt="" class="img-fluid">
+                            <img style="width=250px" src="{{ Theme::asset()->url('imgs/theme/card-back.png') }}" alt="" class="img-fluid">
                         @endif
                     </div>
                 </div>
