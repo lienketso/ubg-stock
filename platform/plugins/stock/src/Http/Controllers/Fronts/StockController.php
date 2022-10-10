@@ -238,11 +238,13 @@ class StockController
                   
         $card_front = rv_media_handle_upload($request->file('card_front'), '0', 'cmnd-ctv');
         $card_back = rv_media_handle_upload($request->file('card_back'), '0', 'cmnd-ctv');
-
-       $xxxx =  $this->customerRepository->update(['id' => $customer->id], [
-            'card_front' => $card_front['data']->url,
-            'card_back' => $card_back['data']->url
-        ]);
+        if(!empty($card_front['data']) && !empty($card_back['data'])){
+            $xxxx =  $this->customerRepository->update(['id' => $customer->id], [
+                'card_front' => $card_front['data']->url,
+                'card_back' => $card_back['data']->url
+            ]);
+        }
+      
         
         /**
          * Tạo ví

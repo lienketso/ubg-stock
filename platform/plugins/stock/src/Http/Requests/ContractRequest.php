@@ -17,8 +17,15 @@ class ContractRequest extends Request
     public function rules()
     {
         return [
-            'card_front' => ['required', 'max:8000'],
-            'card_back' => ['required', 'max:8000'],
+            'card_front' => ['max:8000'],
+            'card_back' => ['max:8000'],
+            'first_buy_price' => ['numeric'],
+            'ky_han' => ['numeric'],
+            'price' => ['numeric'],
+            'total' => ['numeric'],
+            'first_buy_percentage' => ['numeric'],
+            'percent_paid_by_ubgxu' => ['numeric'],
+            'percent_paid_by_money' => ['numeric'],
         ];
     }
 

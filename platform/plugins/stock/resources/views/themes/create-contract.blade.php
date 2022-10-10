@@ -97,9 +97,9 @@
 
                             <input type="file" name="card_front" accept="image/png, image/gif, image/jpeg" class="card-preview d-none">                       
                             @if($customer->card_front != '')                       
-                                <img src="{{'/storage/'.$customer->card_front}}" alt="" class="img-responsive"> 
+                                <img style="width:100%; max-height: 400px" src="{{'/storage/'.$customer->card_front}}" alt="" class="img-responsive"> 
                             @else
-                                <img style="width=250px" src="{{ Theme::asset()->url('imgs/theme/card-front.png') }}" alt="" class="img-fluid">
+                                <img style="width:100%; max-height: 400px" src="{{ Theme::asset()->url('imgs/theme/card-front.png') }}" alt="" class="img-fluid">
                             @endif
                     </div>
                 </div>
@@ -113,9 +113,9 @@
 
                         <input type="file" name="card_back" accept="image/png, image/gif, image/jpeg" class="card-preview d-none">                        
                         @if($customer->card_back != '')                       
-                            <img src="{{'/storage/'.$customer->card_back}}" alt="" class="img-responsive"> 
+                            <img style="width:100%; max-height: 400px" src="{{'/storage/'.$customer->card_back}}" alt="" class="img-responsive"> 
                         @else
-                            <img style="width=250px" src="{{ Theme::asset()->url('imgs/theme/card-back.png') }}" alt="" class="img-fluid">
+                            <img style="width:100%; max-height: 400px" src="{{ Theme::asset()->url('imgs/theme/card-back.png') }}" alt="" class="img-fluid">
                         @endif
                     </div>
                 </div>
@@ -223,7 +223,7 @@
 
             <div class="form-group">
                 <label for="phone-number-password">Suất đầu tư(VNĐ)<span class="required">*</span></label>
-                <input class="form-control" type="text" name="first_buy_price"   value="{{ old('first_buy_price') }}" 
+                <input class="form-control" id="suat_dau_tu" type="number" name="first_buy_price" min="1000" value="{{ old('first_buy_price') }}" 
                      placeholder="" required>
                 <span class="toggle-show-password">
                     <i class="fi-rs-eye active-icon"></i>
@@ -232,22 +232,13 @@
                     <span class="text-danger">{{ $errors->first('first_buy_price') }}</span>
                 @endif
             </div>   
-            <div class="form-group">
-                <label for="phone-number-password">Kỳ hạn(tháng)<span class="required">*</span></label>
-                <input class="form-control" type="number" name="ky_han"   value="{{ old('ky_han') }}" 
-                     placeholder="" required>
-                <span class="toggle-show-password">
-                    <i class="fi-rs-eye active-icon"></i>
-                </span>
-                @if ($errors->has('ky_han'))
-                    <span class="text-danger">{{ $errors->first('ky_han') }}</span>
-                @endif
-            </div>   
+            
 
             <div class="form-group">
                 <label for="phone-number-password">Giá trên 1 cổ phần<span class="required">*</span></label>
-                <input class="form-control" type="number" name="price"   value="{{ old('price') }}" 
+                <input class="form-control" id="gia_co_phan" type="number" name="price" min="1"  value="{{ old('price') }}" 
                      placeholder="" required>
+                
                 <span class="toggle-show-password">
                     <i class="fi-rs-eye active-icon"></i>
                 </span>
@@ -258,7 +249,9 @@
 
             <div class="form-group">
                 <label for="phone-number-password">Số lượng cổ phần<span class="required">*</span></label>
-                <input class="form-control" type="number" name="total"   value="{{ old('total') }}" 
+                <input class="form-control total-cp" type="text" disabled name="total"  min="1"   value="{{ old('total') }}" 
+                     placeholder="" required>
+                <input class="form-control total-cp" type="hidden" name="total"  min="1"   value="{{ old('total') }}" 
                      placeholder="" required>
                 <span class="toggle-show-password">
                     <i class="fi-rs-eye active-icon"></i>
@@ -268,8 +261,19 @@
                 @endif
             </div>  
             <div class="form-group">
+                <label for="phone-number-password">Kỳ hạn(tháng)<span class="required">*</span></label>
+                <input class="form-control" type="number" name="ky_han" min="1"   value="{{ old('ky_han') }}" 
+                     placeholder="" required>
+                <span class="toggle-show-password">
+                    <i class="fi-rs-eye active-icon"></i>
+                </span>
+                @if ($errors->has('ky_han'))
+                    <span class="text-danger">{{ $errors->first('ky_han') }}</span>
+                @endif
+            </div>   
+            <div class="form-group">
                 <label for="phone-number-password">Lợi nhuận(%)<span class="required">*</span></label>
-                <input class="form-control" type="number" name="first_buy_percentage"   value="{{ old('first_buy_percentage') }}" 
+                <input class="form-control" type="number" name="first_buy_percentage" min="1"   value="{{ old('first_buy_percentage') }}" 
                      placeholder="" required>
                 <span class="toggle-show-password">
                     <i class="fi-rs-eye active-icon"></i>
@@ -281,7 +285,7 @@
 
             <div class="form-group">
                 <label for="phone-number-password">Lợi tức bằng xu(%)<span class="required">*</span></label>
-                <input class="form-control" type="number" name="percent_paid_by_ubgxu"   value="{{ old('percent_paid_by_ubgxu') }}" 
+                <input class="form-control" type="number" name="percent_paid_by_ubgxu" min="0"   value="{{ old('percent_paid_by_ubgxu') }}" 
                      placeholder="" required>
                 <span class="toggle-show-password">
                     <i class="fi-rs-eye active-icon"></i>
@@ -292,7 +296,7 @@
             </div> 
             <div class="form-group">
                 <label for="phone-number-password">Lợi tức bằng tiền mặt(%)<span class="required">*</span></label>
-                <input class="form-control" type="number" name="percent_paid_by_money"   value="{{ old('percent_paid_by_money') }}" 
+                <input class="form-control" type="number" name="percent_paid_by_money" min="0"   value="{{ old('percent_paid_by_money') }}" 
                      placeholder="" required>
                 <span class="toggle-show-password">
                     <i class="fi-rs-eye active-icon"></i>
@@ -309,3 +313,29 @@
 </main>
 
 @endsection
+
+
+
+@push('scripts')
+    
+
+<script type="text/javascript">
+    $( document ).ready(function() {
+        $('#suat_dau_tu').keyup(function(){
+            totalCP();
+        });
+        $('#gia_co_phan').keyup(function(){
+            totalCP();
+        });
+        function totalCP(){
+            $suatDauTu = $('#suat_dau_tu').val();
+            $priceCP = $('#gia_co_phan').val();
+            $totalCP = $suatDauTu/$priceCP;
+            $('.total-cp').val($totalCP);
+        }
+
+    })
+</script>
+@endpush
+
+
