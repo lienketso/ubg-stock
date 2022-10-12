@@ -7,7 +7,7 @@
             'order' => 0,
         ],
         [
-            'key'   => 'stock-manager.dashboard',
+            'key'   => 'public.index',
             'icon'  => 'icon material-icons md-dashboard',
             'name'  => 'Tổng quan',
             'order' => 1,

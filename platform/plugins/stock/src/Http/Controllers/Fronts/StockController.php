@@ -233,6 +233,8 @@ class StockController
                 'first_buy_percentage' => $request->input('first_buy_percentage'),
                 'percent_paid_by_ubgxu' => $request->input('percent_paid_by_ubgxu'),
                 'percent_paid_by_money' => $request->input('percent_paid_by_money'),
+                'address'               => $request->input('current_address'),
+                'area'                  => $request->input('area'),
             ]
         );
                   

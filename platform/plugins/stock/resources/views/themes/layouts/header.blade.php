@@ -15,10 +15,10 @@
     </div>
     <div class="main-navigation">
         <ul>
-            <li><a href="{{route('stock-manager.dashboard')}}">Tổng quan</a></li>
-            <li><a href="#">Hợp đồng đã thanh toán</a></li>
-            <li><a href="#">Hợp đồng chờ thanh toán</a></li>
-            <li><a href="#">Hợp đồng hết hạn</a></li>
+            <li><a href="{{route('public.index')}}">Tổng quan</a></li>
+            <li><a href="{{route('public.get-all-contract', 'paid')}}">Hợp đồng đã thanh toán</a></li>
+            <li><a href="{{route('public.get-all-contract', 'unpaid')}}">Hợp đồng chờ thanh toán</a></li>
+            <li><a href="{{route('public.get-all-contract', 'expired')}}">Hợp đồng hết hạn</a></li>
             <li><a href="{{ route('public.check-customer')}}">Tạo hợp đồng</a></li>
         </ul>
     </div>

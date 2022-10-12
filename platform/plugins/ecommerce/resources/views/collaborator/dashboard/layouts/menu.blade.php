@@ -1,7 +1,7 @@
 @php
     $menus = collect([
         [
-            'key'   => 'collaborator.dashboard',
+            'key'   => 'public.index',
             'icon'  => 'icon material-icons md-home',
             'name'  => 'Tổng quan',
             'order' => 1,

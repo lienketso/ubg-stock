@@ -142,7 +142,19 @@
                 @if ($errors->has('current_address'))
                     <span class="text-danger">{{ $errors->first('current_address') }}</span>
                 @endif
-            </div>   
+            </div>  
+            
+            <div class="form-group">
+                <label for="phone-number-password">Khu vực<span class="required">*</span></label>
+                <select name="area" class="form-control">
+                    @foreach(['' => 'Chọn Tỉnh/Thành phố'] + EcommerceHelper::getAvailableProvinces() as $provinceId => $provinceName)
+                    <option value="{{ $provinceName }}" {{ (old('area')== $provinceName) ? 'selected' : ''}}>{{ $provinceName }}</option>
+                    @endforeach
+                </select>
+                @if ($errors->has('area'))
+                    <span class="text-danger">{{ $errors->first('area') }}</span>
+                @endif
+            </div>  
             @php
                 if($customer->collaborator_bank_info){
                     $bankInfo = $customer->collaborator_bank_info;
@@ -208,7 +220,7 @@
             <h5>Thông tin hợp đồng</h5>
             <div class="form-group">
                 <label for="phone-number-password">Trả lãi bằng xu & tiền mặt<span class="required">*</span></label>
-                <select name="type" class="form-control">
+                <select name="type" id="select-payment-type" class="form-control">
                     <option {{ (old('type') == 'vnd-ubgxu') ? 'selected' : '' }} value="vnd-ubgxu">Tiền mặt + UBG Xu</option>
                     <option {{ (old('type') == 'ubgxu') ? 'selected' : '' }} value="ubgxu">UBG Xu</option>
                     <option {{ (old('type') == 'vnd') ? 'selected' : '' }} value="vnd">Tiền mặt</option>
@@ -262,7 +274,7 @@
             </div>  
             <div class="form-group">
                 <label for="phone-number-password">Kỳ hạn(tháng)<span class="required">*</span></label>
-                <input class="form-control" type="number" name="ky_han" min="1"   value="{{ old('ky_han') }}" 
+                <input class="form-control" id="ky_han" type="number" name="ky_han" min="1"   value="{{ old('ky_han') }}" 
                      placeholder="" required>
                 <span class="toggle-show-password">
                     <i class="fi-rs-eye active-icon"></i>
@@ -273,7 +285,7 @@
             </div>   
             <div class="form-group">
                 <label for="phone-number-password">Lợi nhuận(%)<span class="required">*</span></label>
-                <input class="form-control" type="number" name="first_buy_percentage" min="1"   value="{{ old('first_buy_percentage') }}" 
+                <input class="form-control" id="first_buy_percentage" type="number" name="first_buy_percentage" min="1" max="100"  value="{{ old('first_buy_percentage') }}" 
                      placeholder="" required>
                 <span class="toggle-show-password">
                     <i class="fi-rs-eye active-icon"></i>
@@ -283,9 +295,9 @@
                 @endif
             </div>    
 
-            <div class="form-group">
+            <div class="form-group option-payment-ubgxu">
                 <label for="phone-number-password">Lợi tức bằng xu(%)<span class="required">*</span></label>
-                <input class="form-control" type="number" name="percent_paid_by_ubgxu" min="0"   value="{{ old('percent_paid_by_ubgxu') }}" 
+                <input class="form-control" type="number" id="percent_paid_by_ubgxu" name="percent_paid_by_ubgxu" min="0" max="100"   value="{{ old('percent_paid_by_ubgxu') }}" 
                      placeholder="" required>
                 <span class="toggle-show-password">
                     <i class="fi-rs-eye active-icon"></i>
@@ -294,9 +306,9 @@
                     <span class="text-danger">{{ $errors->first('percent_paid_by_ubgxu') }}</span>
                 @endif
             </div> 
-            <div class="form-group">
+            <div class="form-group option-payment-vnd">
                 <label for="phone-number-password">Lợi tức bằng tiền mặt(%)<span class="required">*</span></label>
-                <input class="form-control" type="number" name="percent_paid_by_money" min="0"   value="{{ old('percent_paid_by_money') }}" 
+                <input class="form-control" type="number" id="percent_paid_by_money" name="percent_paid_by_money" min="0" max="100"  value="{{ old('percent_paid_by_money') }}" 
                      placeholder="" required>
                 <span class="toggle-show-password">
                     <i class="fi-rs-eye active-icon"></i>
@@ -305,6 +317,9 @@
                     <span class="text-danger">{{ $errors->first('percent_paid_by_money') }}</span>
                 @endif
             </div> 
+            <div class="tong-loi-nhuan text-center" style="color: #00B032; font-size: 15px; padding: 10px 0">
+              
+            </div>
             <button type="submit" id="btn-check-customer" class="btn-check-customer btn btn-primary mt-20">Tạo hợp đồng</button>
            
         
@@ -321,21 +336,84 @@
 
 <script type="text/javascript">
     $( document ).ready(function() {
+        $('#select-payment-type').change(function(){
+            var selected = $(this).val();
+            if(selected === 'ubgxu'){
+                $('.option-payment-ubgxu').show();
+                $('.option-payment-vnd').hide();
+                $('#percent_paid_by_money').val(0);
+                $('#percent_paid_by_ubgxu').val(100);
+            } else if(selected === 'vnd'){
+                $('.option-payment-vnd').show();
+                $('.option-payment-ubgxu').hide();
+                $('#percent_paid_by_ubgxu').val(0);
+                $('#percent_paid_by_money').val(100);
+            }else{
+                $('.option-payment-vnd').show();
+                $('.option-payment-ubgxu').show();
+                $('#percent_paid_by_ubgxu').val(50);
+                $('#percent_paid_by_money').val(50);
+            }
+            getTotalCP();
+        })
+
+
         $('#suat_dau_tu').keyup(function(){
-            totalCP();
+            getTotalCP();
         });
         $('#gia_co_phan').keyup(function(){
-            totalCP();
+            getTotalCP();
         });
-        function totalCP(){
-            $suatDauTu = $('#suat_dau_tu').val();
-            $priceCP = $('#gia_co_phan').val();
-            $totalCP = $suatDauTu/$priceCP;
-            $('.total-cp').val($totalCP);
+        $('#ky_han').keyup(function(){
+            getTotalCP();
+        });
+        $('#percent_paid_by_ubgxu').keyup(function(){
+            getTotalCP();
+        });
+        $('#percent_paid_by_money').keyup(function(){
+            getTotalCP();
+        });
+        $('#first_buy_percentage').keyup(function(){
+            getTotalCP();
+        });
+
+        function getTotalCP(){
+            var suatDauTu = $('#suat_dau_tu').val();
+                priceCP = $('#gia_co_phan').val();
+                firstBuyPercentage = $('#first_buy_percentage').val();
+                percentPaidByUbgxu = $('#percent_paid_by_ubgxu').val();
+                percentPaidByMoney = $('#percent_paid_by_money').val();
+                kyHan = $('#ky_han').val();
+                totalCP = suatDauTu/priceCP;                
+                loinhuan = (suatDauTu * firstBuyPercentage/100) / 12 * kyHan;
+
+                // Tính lợi nhuận xu
+                totalXu =  addCommas(Math.floor(percentPaidByUbgxu*loinhuan/100)) + ' UBG XU';
+
+                // Tính lợi nhuận VNĐ
+                totalVND =  addCommas(Math.floor(percentPaidByMoney*loinhuan/100)) + ' VNĐ';
+
+                loinhuan = totalVND + ' + ' + totalXu;
+                
+
+            $('.total-cp').val(Math.floor(totalCP));
+
+            $('.tong-loi-nhuan').html(' <strong>Tổng lợi nhuận:</strong> <span class="text">'+loinhuan+'</span>');
+        }
+
+        function addCommas(nStr)
+        {
+            nStr += '';
+            x = nStr.split('.');
+            x1 = x[0];
+            x2 = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + '.' + '$2');
+            }
+            return x1 + x2;
         }
 
     })
 </script>
 @endpush
-
-

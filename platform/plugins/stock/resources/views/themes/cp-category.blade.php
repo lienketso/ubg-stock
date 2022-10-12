@@ -6,7 +6,7 @@
         <h1 class="overview-title">Tổng quan</h1>  
        
         <div class="overview-list">
-            <div class="item">
+            <a class="item" href="{{route('public.get-all-contract', 'all')}}">
                 <div class="icon">
                     <i class="fa-solid fa-file-lines"></i>
                 </div>
@@ -14,9 +14,9 @@
                     <p>Tổng số hợp đồng</p>
                     <h3>{{ $totalContract }}</h3>
                 </div>
-            </div>
+            </a>
 
-            <div class="item">
+            <a class="item" href="{{route('public.get-all-contract', 'paid')}}">
                 <div class="icon">
                     <i class="fa-solid fa-dollar-sign"></i>
                 </div>
@@ -24,10 +24,10 @@
                     <p>Số hợp đồng đã thanh toán</p>
                     <h3>{{ $paidContract }}</h3>
                 </div>
-            </div>
+            </a>
 
 
-            <div class="item">
+            <a class="item" href="{{route('public.get-all-contract', 'paid')}}">
                 <div class="icon">
                     <i class="fa-solid fa-clock"></i>
                 </div>
@@ -35,9 +35,9 @@
                     <p>Số hợp đồng chờ thanh toán</p>
                     <h3>{{ $signedContract }}</h3>
                 </div>
-            </div>
+            </a>
 
-            <div class="item">
+            <a class="item" {{route('public.get-all-contract', 'expired')}}>
                 <div class="icon">
                     <i class="fa-solid fa-triangle-exclamation"></i>
                 </div>
@@ -45,7 +45,7 @@
                     <p>Số hợp đồng đã hết hạn</p>
                     <h3>{{ $expiredContract }}</h3>
                 </div>
-            </div>
+            </a>
 
             <div class="item item-last">
                 <div class="icon">
