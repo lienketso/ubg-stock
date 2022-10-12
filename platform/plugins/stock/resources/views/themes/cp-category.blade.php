@@ -37,7 +37,7 @@
                 </div>
             </a>
 
-            <a class="item" {{route('public.get-all-contract', 'expired')}}>
+            <a class="item" href="{{route('public.get-all-contract', 'expired')}}">
                 <div class="icon">
                     <i class="fa-solid fa-triangle-exclamation"></i>
                 </div>

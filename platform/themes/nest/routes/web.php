@@ -68,8 +68,11 @@ Route::group(['namespace' => 'Theme\Nest\Http\Controllers', 'middleware' => ['we
         Route::get('/', 'StockController@getIndexStock')
             ->name('public.index');
 
-            Route::get('get-all-contract/{status}', 'StockController@getAllContract')
-            ->name('public.get-all-contract');    
+        Route::get('get-all-contract/{status}', 'StockController@getAllContract')
+        ->name('public.get-all-contract');    
+
+        Route::get('detail-contract/{id}', 'StockController@detailContract')
+        ->name('public.detail--contract');  
 
         Route::get('sitemap.xml', 'NestController@getSiteMap')
             ->name('public.sitemap');

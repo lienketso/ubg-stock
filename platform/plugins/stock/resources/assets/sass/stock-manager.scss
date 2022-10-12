@@ -21,6 +21,17 @@ body {
 
 .cp-wrapper{
     background: #e1e1e1 !important;
+	.table-contract{
+		margin: 0;
+		background: #fff;
+		th,td{
+			text-align: center;
+		}
+	}
+	.pagination{
+		margin: 0;
+		padding-bottom: 20px;
+	}
 	.create-contract-title{
 		font-weight: bold;
 		font-size: 22px;
