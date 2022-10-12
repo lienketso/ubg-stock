@@ -66,7 +66,7 @@ class StockController extends BaseController
             return $response->setNextUrl(route('customer.login'));
         }
         $user =  auth('customer')->user();
-    
+        dd($id);
        
         return view('plugins/stock::themes.detail-contract', compact('contract'));
     }
