@@ -72,7 +72,7 @@ Route::group(['namespace' => 'Theme\Nest\Http\Controllers', 'middleware' => ['we
         ->name('public.get-all-contract');    
 
         Route::get('detail-contract/{id}', 'StockController@detailContract')
-        ->name('public.detail--contract');  
+        ->name('public.detail-contract');  
 
         Route::get('sitemap.xml', 'NestController@getSiteMap')
             ->name('public.sitemap');
