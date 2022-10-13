@@ -7,16 +7,19 @@ namespace Theme\Nest\Http\Controllers;
 use Botble\Base\Http\Controllers\BaseController;
 use Botble\Stock\Repositories\Interfaces\ContractInterface;
 use Botble\Base\Http\Responses\BaseHttpResponse;
+use Botble\Ecommerce\Repositories\Interfaces\CustomerInterface;
 use Theme;
 
 class StockController extends BaseController
 {
 
     protected $contract;
+    protected $customerRepository;
 
-    public function __construct(ContractInterface $contract)
+    public function __construct(ContractInterface $contract, CustomerInterface $customerRepository)
     {
         $this->contract = $contract;
+        $this->customerRepository = $customerRepository;
     }
 
     public function getIndexStock(
@@ -66,9 +69,18 @@ class StockController extends BaseController
             return $response->setNextUrl(route('customer.login'));
         }
         $user =  auth('customer')->user();
-        dd($id);
+        $contract = $this->contract->getFirstBy([
+            'id'                 => $id,
+            'presenter_id'       => $user->affiliation_id
+        ]);
+
+        if (!$contract) {
+            return $response->setNextUrl(route('public.index'));
+        }
+
+        $customer = $this->customerRepository->findById($contract->customer_id);
        
-        return view('plugins/stock::themes.detail-contract', compact('contract'));
+        return view('plugins/stock::themes.detail-contract', compact('contract', 'customer'));
     }
 
     
